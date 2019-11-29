@@ -11,7 +11,7 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface KLHomeService : NSObject
 
-- (UIViewController *)nativeToFetchHomeController:(NSDictionary *)parameters;
+- (UIViewController *)nativeToFetchHomeController:(nullable NSDictionary *)parameters;
 
 @end
 

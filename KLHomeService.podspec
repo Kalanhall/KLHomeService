@@ -36,12 +36,14 @@ Pod::Spec.new do |s|
   #   'KLHomeService' => ['KLHomeService/Assets/*.png']
   # }
 
-  # s.public_header_files = 'Pod/Classes/**/*.h'
+  s.public_header_files = 'KLHomeService/Classes/*.{h}'
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'Masonry'
   s.dependency 'KLLeaks'
   s.dependency 'KLCategory'
   s.dependency 'KLNetworkModule'
   s.dependency 'KLUserInfoManager'
+  s.dependency 'KLCollectionViewFlowLayout'
   s.dependency 'YKWoodpecker'
+  
 end
