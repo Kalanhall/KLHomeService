@@ -8,6 +8,8 @@
 @import KLCategory;
 @import KLCollectionViewFlowLayout;
 @import Masonry;
+@import KLCarousel;
+@import KLNavigationController;
 
 #import "KLHomeController.h"
 #import "KLHomeImageCell.h"
@@ -23,6 +25,7 @@
 
 @property (strong, nonatomic) UICollectionView *collectionView;
 
+@property (strong, nonatomic) KLCarousel *carousel;
 @property (strong, nonatomic) NSMutableArray *texts;
 
 @end
@@ -32,7 +35,7 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
-    self.navigationItem.title = @"首页";
+    self.kl_barAlpha = 0;
     
     [self.view addSubview:self.collectionView];
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -52,9 +55,8 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     switch (section) {
-        case 0:
-            return 5;
         case 1:
+            return 5;
         case 3:
             return 7;
         case 2:
@@ -67,7 +69,34 @@
 }
 
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
-    if (indexPath.section == 4) {
+    if (indexPath.section == 0) {
+        UICollectionViewCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:UICollectionViewCell.description forIndexPath:indexPath];
+        if (self.carousel == nil) {
+            CGRect rect = cell.bounds;
+            KLCarouselViewLayout *layout = KLCarouselViewLayout.alloc.init;
+            layout.itemSize = CGSizeMake(rect.size.width * 0.8, rect.size.height * 0.8);
+            layout.itemSpacing = 10;
+            layout.itemHorizontalCenter = YES;
+            layout.itemVerticalCenter = YES;
+            layout.layoutType = KLCarouselTransformLayoutTypeCoverflow;
+            self.carousel = [KLCarousel carouselWithFrame:rect layout:layout cell:nil];
+            self.carousel.control.currentPageIndicatorTintColor = UIColor.blackColor;
+
+            self.carousel.didSelectedItemCell = ^(NSInteger index) {
+                NSLog(@"Index - %@", @(index));
+            };
+            
+            self.carousel.cellForItemAtIndex = ^(KLCarouselCell * _Nonnull cell, NSInteger index) {
+        //            [cell.imageView sd_setImageWithURL:[NSURL URLWithString:@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575035592451&di=bca037f79660b2bf137c3d1cfcee4c66&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2017-12-01%2F5a20c01220da2.jpg"]];
+            };
+            cell.contentView.backgroundColor = UIColor.whiteColor;
+            [cell.contentView addSubview:self.carousel];
+            
+            self.carousel.imageURLs = @[@"", @"", @""];
+        }
+        return cell;
+    }
+    else if (indexPath.section == 4) {
         KLHomeImageTitleCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:KLHomeImageTitleCell.description forIndexPath:indexPath];
         cell.textLabel.text = self.texts[indexPath.row];
         return cell;
@@ -81,6 +110,7 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewFlowLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.section) {
         case 0:
+            return CGSizeMake(0, 200);
         case 1:
         case 2:
         case 3:
@@ -107,16 +137,6 @@
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(KLCollectionViewBaseFlowLayout*)collectionViewLayout percentOfRow:(NSIndexPath *)indexPath {
     switch (indexPath.section) {
-        case 0: {
-            switch (indexPath.row) {
-                case 0:
-                case 1:
-                case 2:
-                    return 1 / 2.0;
-                default:
-                    return 1 / 4.0;
-            }
-        }
         case 1: {
             switch (indexPath.row) {
                 case 0:
@@ -157,7 +177,7 @@
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     switch (section) {
         case 0:
-            return UIEdgeInsetsMake(10, 10, 10, 10);
+            return UIEdgeInsetsMake(0, 0, 10, 0);
         default:
             return UIEdgeInsetsMake(0, 10, 10, 10);
     }
@@ -204,6 +224,13 @@
         _collectionView.dataSource = self;
         [_collectionView registerClass:KLHomeImageCell.class forCellWithReuseIdentifier:KLHomeImageCell.description];
         [_collectionView registerClass:KLHomeImageTitleCell.class forCellWithReuseIdentifier:KLHomeImageTitleCell.description];
+        [_collectionView registerClass:UICollectionViewCell.class forCellWithReuseIdentifier:UICollectionViewCell.description];
+        
+        if (@available(iOS 11.0, *)) {
+            _collectionView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+        } else {
+            self.automaticallyAdjustsScrollViewInsets = NO;
+        }
     }
     return _collectionView;
 }

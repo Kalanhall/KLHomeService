@@ -44,6 +44,8 @@ Pod::Spec.new do |s|
   s.dependency 'KLNetworkModule'
   s.dependency 'KLUserInfoManager'
   s.dependency 'KLCollectionViewFlowLayout'
+  s.dependency 'KLNavigationController'
+  s.dependency 'KLCarousel'
   s.dependency 'YKWoodpecker'
   
 end
