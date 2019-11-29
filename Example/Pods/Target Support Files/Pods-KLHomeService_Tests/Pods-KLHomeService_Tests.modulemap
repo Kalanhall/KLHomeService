@@ -1,0 +1,6 @@
+framework module Pods_KLHomeService_Tests {
+  umbrella header "Pods-KLHomeService_Tests-umbrella.h"
+
+  export *
+  module * { export * }
+}

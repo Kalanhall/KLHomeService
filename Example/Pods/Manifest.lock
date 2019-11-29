@@ -1,0 +1,70 @@
+PODS:
+  - AFNetworking (3.2.1):
+    - AFNetworking/NSURLSession (= 3.2.1)
+    - AFNetworking/Reachability (= 3.2.1)
+    - AFNetworking/Security (= 3.2.1)
+    - AFNetworking/Serialization (= 3.2.1)
+    - AFNetworking/UIKit (= 3.2.1)
+  - AFNetworking/NSURLSession (3.2.1):
+    - AFNetworking/Reachability
+    - AFNetworking/Security
+    - AFNetworking/Serialization
+  - AFNetworking/Reachability (3.2.1)
+  - AFNetworking/Security (3.2.1)
+  - AFNetworking/Serialization (3.2.1)
+  - AFNetworking/UIKit (3.2.1):
+    - AFNetworking/NSURLSession
+  - KLCache (1.0.1)
+  - KLCategory (1.0.0)
+  - KLHomeService (0.0.1):
+    - KLCategory
+    - KLLeaks
+    - KLNetworkModule
+    - KLUserInfoManager
+    - Masonry
+    - YKWoodpecker
+  - KLLeaks (1.0.0)
+  - KLModel (1.0.0)
+  - KLNetworkModule (2.0.1):
+    - AFNetworking
+  - KLUserInfoManager (1.0.1):
+    - KLCache (~> 1.0.0)
+    - KLModel (~> 1.0.0)
+  - Masonry (1.1.0)
+  - YKWoodpecker (1.1.1)
+
+DEPENDENCIES:
+  - KLHomeService (from `../`)
+
+SPEC REPOS:
+  https://github.com/Kalanhall/Specs.git:
+    - KLCache
+    - KLCategory
+    - KLModel
+    - KLUserInfoManager
+  trunk:
+    - AFNetworking
+    - KLLeaks
+    - KLNetworkModule
+    - Masonry
+    - YKWoodpecker
+
+EXTERNAL SOURCES:
+  KLHomeService:
+    :path: "../"
+
+SPEC CHECKSUMS:
+  AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
+  KLCache: 1bf0c622da8f7e4e3acf2569e1d02e60b11ff6e6
+  KLCategory: 25c1bff2a0ca8873e9449d0aa70ae25615b3713e
+  KLHomeService: 20b88e140a259fde32f8abdb93a7f1f8fb7561d5
+  KLLeaks: 2c098234d67353bc2286d4eec6feeff14163136c
+  KLModel: 68eb4580c629621bec437e2a318101295a2f0965
+  KLNetworkModule: b9baa618cf4d1752145d74ef5c08d002f4cf6873
+  KLUserInfoManager: 1602e368ddc874308cfc1e8fe9638979ab17e713
+  Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  YKWoodpecker: 446884788ccf1f1800781d50e503f9bdb0bdaebe
+
+PODFILE CHECKSUM: 376c886b1ea6d28ce6eee6616fe5dca4707b933d
+
+COCOAPODS: 1.8.3
