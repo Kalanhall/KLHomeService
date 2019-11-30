@@ -50,18 +50,14 @@
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
-    return 5;
+    return 3;
 }
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView numberOfItemsInSection:(NSInteger)section {
     switch (section) {
         case 1:
-            return 5;
-        case 3:
             return 7;
         case 2:
-            return 8;
-        case 4:
             return self.texts.count;
         default:
             return 1;
@@ -96,7 +92,7 @@
         }
         return cell;
     }
-    else if (indexPath.section == 4) {
+    else if (indexPath.section == 2) {
         KLHomeImageTitleCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:KLHomeImageTitleCell.description forIndexPath:indexPath];
         cell.textLabel.text = self.texts[indexPath.row];
         return cell;
@@ -112,10 +108,8 @@
         case 0:
             return CGSizeMake(0, 200);
         case 1:
-        case 2:
-        case 3:
             return CGSizeMake(0, 125);
-        case 4: {
+        case 2: {
             CGSize size = [collectionView kl_sizeForCellWithIdentifier:KLHomeImageTitleCell.description indexPath:indexPath fixedWidth:(collectionView.frame.size.width - 10 * 2 - 1)/ 2 configuration:^(__kindof KLHomeImageTitleCell *cell) {
                 cell.textLabel.text = self.texts[indexPath.row];
             }];
@@ -128,7 +122,7 @@
 
 - (KLLayoutType)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewFlowLayout *)collectionViewLayout typeOfLayout:(NSInteger)section {
     switch (section) {
-        case 4:
+        case 2:
             return ClosedLayout;
         default:
             return PercentLayout;   // 百分比布局
@@ -149,26 +143,6 @@
                     return 1 / 4.0;
             }
         }
-        case 2: {
-            switch (indexPath.row) {
-                case 0:
-                case 1:
-                case 2:
-                case 3:
-                    return 1 / 2.0;
-                default:
-                    return 1 / 4.0;
-            }
-        }
-        case 3: {
-            switch (indexPath.row) {
-                case 4:
-                case 5:
-                    return 1 / 4.0;
-                default:
-                    return 1 / 2.0;
-            }
-        }
         default:
             return 1.0;
     }
@@ -185,7 +159,7 @@
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     switch (section) {
-        case 4:
+        case 2:
             return 1;
         default:
             return 0;
@@ -194,7 +168,7 @@
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
     switch (section) {
-        case 4:
+        case 2:
             return 1;
         default:
             return 0;
@@ -203,7 +177,7 @@
 
 - (NSInteger)collectionView:(UICollectionView *)collectionView layout:(KLCollectionViewBaseFlowLayout*)collectionViewLayout columnCountOfSection:(NSInteger)section {
     switch (section) {
-        case 4:
+        case 2:
             return 2;
         default:
             return 0;
