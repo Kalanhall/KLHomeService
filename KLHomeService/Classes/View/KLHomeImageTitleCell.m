@@ -25,7 +25,7 @@
         [self.contentView addSubview:self.imageView];
         [self.imageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.top.right.mas_equalTo(self.contentView);
-            make.height.mas_equalTo(self.imageView.mas_width).multipliedBy(4/3.0);
+            make.height.mas_equalTo(self.imageView.mas_width);
         }];
 
         self.textLabel = UILabel.alloc.init;
