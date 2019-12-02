@@ -31,7 +31,7 @@
         self.carousel = [KLCarousel carouselWithFrame:CGRectZero layout:self.layout cell:nil];
         self.carousel.control.currentPageIndicatorTintColor = UIColor.blackColor;
         self.carousel.control.pageIndicatorSize = CGSizeMake(10, 5);
-        self.carousel.control.currentPageIndicatorSize = CGSizeMake(5, 5);
+        self.carousel.control.currentPageIndicatorSize = CGSizeMake(10, 5);
         self.carousel.control.pageIndicatorSpaing = 5;
         [self.contentView addSubview:self.carousel];
         
