@@ -15,9 +15,9 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
-        self.contentView.backgroundColor = UIColor.whiteColor;
+        self.contentView.backgroundColor = [UIColor kl_colorWithHexNumber:0xF9F9F9];
         self.contentView.layer.borderWidth = 0.5;
-        self.contentView.layer.borderColor = [UIColor kl_colorWithHexNumber:0xF9F9F9].CGColor;
+        self.contentView.layer.borderColor = UIColor.whiteColor.CGColor;
     }
     return self;
 }

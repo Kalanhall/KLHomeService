@@ -11,10 +11,6 @@
 #endif
 
 #import "KLHomeService.h"
-#import "KLHomeModel.h"
-#import "KLHomeController.h"
-#import "KLHomeView.h"
-#import "KLHomeViewModel.h"
 
 FOUNDATION_EXPORT double KLHomeServiceVersionNumber;
 FOUNDATION_EXPORT const unsigned char KLHomeServiceVersionString[];

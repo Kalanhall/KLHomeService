@@ -19,6 +19,7 @@
     "ios": "9.0"
   },
   "source_files": "KLHomeService/Classes/**/*",
+  "public_header_files": "KLHomeService/Classes/*.{h}",
   "dependencies": {
     "Masonry": [
 
@@ -33,6 +34,18 @@
 
     ],
     "KLUserInfoManager": [
+
+    ],
+    "KLCollectionViewFlowLayout": [
+
+    ],
+    "KLNavigationController": [
+
+    ],
+    "KLCarousel": [
+
+    ],
+    "SDWebImage": [
 
     ],
     "YKWoodpecker": [

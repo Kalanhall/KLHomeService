@@ -30,6 +30,9 @@
         
         self.carousel = [KLCarousel carouselWithFrame:CGRectZero layout:self.layout cell:nil];
         self.carousel.control.currentPageIndicatorTintColor = UIColor.blackColor;
+        self.carousel.control.pageIndicatorSize = CGSizeMake(10, 5);
+        self.carousel.control.currentPageIndicatorSize = CGSizeMake(5, 5);
+        self.carousel.control.pageIndicatorSpaing = 5;
         [self.contentView addSubview:self.carousel];
         
     }
@@ -42,7 +45,7 @@
     // 控件以frame布局，需要重置控件内部控件尺寸
     self.carousel.frame = self.frame;
     self.layout.itemSize = CGSizeMake(self.frame.size.width * 0.8, self.frame.size.height * 0.8);
-    self.carousel.control.frame = CGRectMake(0, CGRectGetHeight(self.frame) - 20, CGRectGetWidth(self.frame), 20);
+    self.carousel.control.frame = CGRectMake(0, self.frame.size.height * 0.9, CGRectGetWidth(self.frame), self.frame.size.height * 0.1);
 }
 
 @end

@@ -32,9 +32,9 @@ Pod::Spec.new do |s|
 
   s.source_files = 'KLHomeService/Classes/**/*'
   
-  # s.resource_bundles = {
-  #   'KLHomeService' => ['KLHomeService/Assets/*.png']
-  # }
+#  s.resource_bundles = {
+#    'KLHomeService' => ['KLHomeService/Assets/*']
+#  }
 
   s.public_header_files = 'KLHomeService/Classes/*.{h}'
   # s.frameworks = 'UIKit', 'MapKit'
@@ -46,6 +46,7 @@ Pod::Spec.new do |s|
   s.dependency 'KLCollectionViewFlowLayout'
   s.dependency 'KLNavigationController'
   s.dependency 'KLCarousel'
+  s.dependency 'SDWebImage'
   s.dependency 'YKWoodpecker'
   
 end

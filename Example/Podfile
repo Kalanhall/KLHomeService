@@ -8,6 +8,7 @@ source 'https://github.com/Kalanhall/Specs.git'
 
 target 'KLHomeService_Example' do
   pod 'KLHomeService', :path => '../'
+  pod 'KLHomeServiceInterface', :path => '/Users/kalan/Desktop/KLHomeServiceInterface'
 
   target 'KLHomeService_Tests' do
     inherit! :search_paths

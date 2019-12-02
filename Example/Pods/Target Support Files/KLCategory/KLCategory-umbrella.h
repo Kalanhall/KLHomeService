@@ -10,9 +10,14 @@
 #endif
 #endif
 
-#import "UIButton+Extension.h"
-#import "UIColor+Extension.h"
-#import "UIImage+Extension.h"
+#import "NSObject+KLExtension.h"
+#import "NSObject+KLTouchFaceID.h"
+#import "UIButton+KLExtension.h"
+#import "UICollectionView+KLExtension.h"
+#import "UIColor+KLExtension.h"
+#import "UIImage+KLExtension.h"
+#import "UIView+KLExtensiton.h"
+#import "UIViewController+KLLogExtension.h"
 
 FOUNDATION_EXPORT double KLCategoryVersionNumber;
 FOUNDATION_EXPORT const unsigned char KLCategoryVersionString[];

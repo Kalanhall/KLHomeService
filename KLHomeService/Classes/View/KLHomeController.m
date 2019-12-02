@@ -9,6 +9,7 @@
 @import KLCollectionViewFlowLayout;
 @import Masonry;
 @import KLNavigationController;
+@import SDWebImage;
 
 #import "KLHomeController.h"
 #import "KLHomeImageCell.h"
@@ -24,7 +25,6 @@
 >
 
 @property (strong, nonatomic) UICollectionView *collectionView;
-
 @property (strong, nonatomic) NSMutableArray *texts;
 
 @end
@@ -41,11 +41,15 @@
         make.edges.equalTo(self.view);
     }];
     
-    self.texts = NSMutableArray.array;
-    for (int i = 0; i < 20; i ++) {
-        NSString *str = [@"测试字符串测试字符串测试字符串测试字符串测试字符串测试字符串测试字符串" substringFromIndex:arc4random_uniform(30)];
-        [self.texts addObject:str];
-    }
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        
+        self.texts = NSMutableArray.array;
+        for (int i = 0; i < 20; i ++) {
+            NSString *str = [@"测试字符串测试字符串测试字符串测试字符串测试字符串测试字符串测试字符串" substringFromIndex:arc4random_uniform(30)];
+            [self.texts addObject:str];
+        }
+        [self.collectionView reloadData];
+    });
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -66,14 +70,19 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         KLHomeCarouselCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:KLHomeCarouselCell.description forIndexPath:indexPath];
-        cell.carousel.imageURLs = @[@"", @"", @""];
         cell.carousel.didSelectedItemCell = ^(NSInteger index) {
             NSLog(@"Index - %@", @(index));
         };
 
-        cell.carousel.cellForItemAtIndex = ^(KLCarouselCell * _Nonnull cell, NSInteger index) {
-        //            [cell.imageView sd_setImageWithURL:[NSURL URLWithString:@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575035592451&di=bca037f79660b2bf137c3d1cfcee4c66&imgtype=0&src=http%3A%2F%2Fpic1.win4000.com%2Fwallpaper%2F2017-12-01%2F5a20c01220da2.jpg"]];
+        cell.carousel.cellForItemAtIndex = ^(KLCarouselCell * _Nonnull carouselCell, NSArray * _Nonnull images, NSInteger index) {
+            [carouselCell.imageView sd_setImageWithURL:[NSURL URLWithString:images[index]]];
         };
+        
+        cell.carousel.images = @[@"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2373773158,2067703814&fm=26&gp=0.jpg",
+                                    @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575283456550&di=372bae7542877af3f89f92831c18a196&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201610%2F12%2F20161012124101_aX4Cf.png",
+                                    @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575283456550&di=6b426d81feebc8e60676a1caae07450f&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201610%2F13%2F20161013192818_AHfhJ.jpeg"];
+        [cell.carousel reloadData];
+        
         return cell;
     }
     else if (indexPath.section == 2) {
@@ -90,7 +99,7 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewFlowLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.section) {
         case 0:
-            return CGSizeMake(0, Auto(200));
+            return CGSizeMake(0, Auto(220));
         case 1:
             return CGSizeMake(0, Auto(125));
         case 2: {
@@ -133,9 +142,14 @@
 }
 
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
+    
+    if (section == [self numberOfSectionsInCollectionView:collectionView] - 1) {
+        return UIEdgeInsetsMake(0, 10, Auto_Bottom() + 10, 10); // 底部扩展区域
+    }
+    
     switch (section) {
         case 0:
-            return UIEdgeInsetsMake(0, 0, 10, 0);
+            return UIEdgeInsetsMake(0, 0, 0, 0);
         default:
             return UIEdgeInsetsMake(0, 10, 10, 10);
     }
@@ -177,7 +191,7 @@
         layout.delegate = self;
         _collectionView = [UICollectionView.alloc initWithFrame:CGRectZero collectionViewLayout:layout];
         _collectionView.showsVerticalScrollIndicator = NO;
-        _collectionView.backgroundColor = [UIColor kl_colorWithHexNumber:0xF9F9F9];
+        _collectionView.backgroundColor = UIColor.whiteColor;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
         [_collectionView registerClass:KLHomeImageCell.class forCellWithReuseIdentifier:KLHomeImageCell.description];

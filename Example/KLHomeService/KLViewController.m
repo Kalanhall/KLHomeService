@@ -7,6 +7,7 @@
 //
 
 #import "KLViewController.h"
+@import KLHomeServiceInterface;
 
 @interface KLViewController ()
 
@@ -24,6 +25,12 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    UIViewController *vc = [KLServer.sharedServer fetchHomeController:nil];
+    vc.modalPresentationStyle = UIModalPresentationFullScreen;
+    [self presentViewController:vc animated:YES completion:nil];
 }
 
 @end
