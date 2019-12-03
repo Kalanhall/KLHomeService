@@ -16,6 +16,14 @@
 {
     self = [super initWithFrame:frame];
     if (self) {
+        self.backgroundView = UIImageView.alloc.init;
+        self.backgroundView.contentMode = UIViewContentModeTop;
+        self.backgroundView.clipsToBounds = YES;
+        [self addSubview:self.backgroundView];
+        [self.backgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.edges.mas_equalTo(0);
+        }];
+        
         self.searchBar = UITextField.alloc.init;
         self.searchBar.backgroundColor = UIColor.whiteColor;
         self.searchBar.layer.cornerRadius = 15;
@@ -31,7 +39,7 @@
     return self;
 }
 
-- (void)dynamicWithScrollView:(UIScrollView *)scrollView rightSpace:(CGFloat)space {
+- (CGFloat)dynamicWithScrollView:(UIScrollView *)scrollView rightSpace:(CGFloat)space {
     CGFloat position = scrollView.contentOffset.y;
     if (position < -scrollView.contentInset.top) {
         position = -scrollView.contentInset.top;
@@ -40,12 +48,18 @@
     }
     self.frame = CGRectMake(self.x, self.y, self.w, fabs(position));
     
+    // 实时移动距离
+    CGFloat move = scrollView.contentInset.top + position;
+    
+    
+    // 搜索栏位移
     CGFloat real = scrollView.contentInset.top - Auto_Top();    // 实际经过距离
     CGFloat target = space;                                     // 右侧预留距离
-    CGFloat update = (position + scrollView.contentInset.top) / real * target * 2/*加速到达终点的倍数*/; // 右边间距实时距离
+    CGFloat update = move / real * target * 2/*加速到达终点的倍数*/; // 右边间距实时距离
     if (update >= target) {
         update = target;
     }
+    
     [self.searchBar mas_updateConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(-10 - update);
     }];
@@ -55,6 +69,7 @@
     for (UIView *item in self.leftViews) {
         item.alpha = alpha;
     }
+    return move;
 }
 
 - (void)setLeftView:(UIView *)leftView {
@@ -74,7 +89,7 @@
     [rightView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(-10);
         make.top.mas_equalTo(Auto_Status());
-        make.width.mas_equalTo(30.0);
+        make.width.mas_equalTo(40);
         make.height.mas_equalTo(44.0);
     }];
 }
@@ -88,7 +103,7 @@
             [obj mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.mas_equalTo(-10);
                 make.top.mas_equalTo(Auto_Status());
-                make.width.mas_equalTo(34.0);
+                make.width.mas_equalTo(40);
                 make.height.mas_equalTo(44.0);
             }];
         } else {
@@ -110,7 +125,7 @@
             [obj mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.right.mas_equalTo(-10);
                 make.top.mas_equalTo(Auto_Status());
-                make.width.mas_equalTo(34.0);
+                make.width.mas_equalTo(40);
                 make.height.mas_equalTo(44.0);
             }];
         } else {

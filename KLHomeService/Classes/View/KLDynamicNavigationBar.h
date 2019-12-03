@@ -11,13 +11,14 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface KLDynamicNavigationBar : UIView
 
+@property (strong, nonatomic) UIImageView *backgroundView;
 @property (strong, nonatomic) UITextField *searchBar;
 @property (strong, nonatomic) UIView *leftView;
 @property (strong, nonatomic) NSArray <UIView *> *leftViews;
 @property (strong, nonatomic) UIButton *rightView;
 @property (strong, nonatomic) NSArray <UIView *> *rightViews;
 
-- (void)dynamicWithScrollView:(UIScrollView *)scrollView rightSpace:(CGFloat)space;
+- (CGFloat)dynamicWithScrollView:(UIScrollView *)scrollView rightSpace:(CGFloat)space;
 
 @end
 

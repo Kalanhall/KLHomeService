@@ -27,6 +27,7 @@
 
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) KLDynamicNavigationBar *dynamicBar;
+@property (strong, nonatomic) UIImageView *nomalView;
 @property (strong, nonatomic) NSMutableArray *texts;
 
 @end
@@ -40,29 +41,38 @@
     self.kl_barAlpha = 0;
     self.kl_barStyle = UIBarStyleBlackOpaque;
     
+    self.nomalView = UIImageView.alloc.init;
+    self.nomalView.contentMode = UIViewContentModeTop;
+    self.nomalView.image = [UIImage kl_imageWithImageName:@"top2" inBundle:[NSBundle bundleForClass:self.class]];
+    [self.view addSubview:self.nomalView];
+    [self.nomalView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.left.top.right.mas_equalTo(0);
+        make.height.mas_equalTo(200);
+    }];
+    
     [self.view addSubview:self.collectionView];
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
     
     self.dynamicBar = KLDynamicNavigationBar.alloc.init;
-    self.dynamicBar.backgroundColor = UIColor.redColor;
     self.dynamicBar.frame = CGRectMake(0, 0, self.view.bounds.size.width, 100);
+    self.dynamicBar.backgroundView.image = [UIImage kl_imageWithImageName:@"top1" inBundle:[NSBundle bundleForClass:self.class]];
     [self.view addSubview:self.dynamicBar];
     
     UIButton *item1 = [UIButton buttonWithType:UIButtonTypeCustom];
     item1.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [item1 setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
-    [item1 setImage:[UIImage imageNamed:@"相机"] forState:UIControlStateNormal];
+    [item1 setImage:[UIImage kl_imageWithImageName:@"相机" inBundle:[NSBundle bundleForClass:self.class]] forState:UIControlStateNormal];
     UIButton *item2 = [UIButton buttonWithType:UIButtonTypeCustom];
     item2.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [item2 setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
-    [item2 setImage:[UIImage imageNamed:@"消息"] forState:UIControlStateNormal];
+    [item2 setImage:[UIImage kl_imageWithImageName:@"消息" inBundle:[NSBundle bundleForClass:self.class]] forState:UIControlStateNormal];
     self.dynamicBar.rightViews = @[item2, item1];
     UIButton *left = [UIButton buttonWithType:UIButtonTypeCustom];
     left.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [left setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
-    [left setImage:[UIImage imageNamed:@"京东"] forState:UIControlStateNormal];
+    [left setImage:[UIImage kl_imageWithImageName:@"京东" inBundle:[NSBundle bundleForClass:self.class]] forState:UIControlStateNormal];
     self.dynamicBar.leftView = left;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
@@ -210,7 +220,13 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self.dynamicBar dynamicWithScrollView:scrollView rightSpace:70];
+    [self.dynamicBar dynamicWithScrollView:scrollView rightSpace:80];
+    
+    CGFloat position = scrollView.contentOffset.y;
+    if (position <= -scrollView.contentInset.top) {
+        position = -scrollView.contentInset.top;
+    }
+    self.nomalView.transform = CGAffineTransformMakeTranslation(0, - position - scrollView.contentInset.top);
 }
 
 // MARK: - Getter

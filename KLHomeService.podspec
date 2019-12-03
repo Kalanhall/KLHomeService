@@ -32,9 +32,9 @@ Pod::Spec.new do |s|
 
   s.source_files = 'KLHomeService/Classes/**/*'
   
-#  s.resource_bundles = {
-#    'KLHomeService' => ['KLHomeService/Assets/*']
-#  }
+  s.resource_bundles = {
+    'KLHomeService' => ['KLHomeService/Assets/*']
+  }
 
   s.public_header_files = 'KLHomeService/Classes/*.{h}'
   # s.frameworks = 'UIKit', 'MapKit'
