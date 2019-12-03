@@ -25,6 +25,7 @@
 >
 
 @property (strong, nonatomic) UICollectionView *collectionView;
+@property (strong, nonatomic) UIView *navigationView;
 @property (strong, nonatomic) NSMutableArray *texts;
 
 @end
@@ -33,13 +34,20 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.kl_barAlpha = 0;
+
+    self.view.backgroundColor = UIColor.whiteColor;
+    self.kl_barHidden = YES;
+    self.kl_barStyle = UIBarStyleBlackOpaque;
     
     [self.view addSubview:self.collectionView];
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
+    
+    self.navigationView = UIView.alloc.init;
+    self.navigationView.backgroundColor = UIColor.redColor;
+    self.navigationView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 100);
+    [self.view addSubview:self.navigationView];
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
@@ -70,17 +78,18 @@
 - (UICollectionViewCell *)collectionView:(UICollectionView *)collectionView cellForItemAtIndexPath:(NSIndexPath *)indexPath {
     if (indexPath.section == 0) {
         KLHomeCarouselCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:KLHomeCarouselCell.description forIndexPath:indexPath];
-        cell.carousel.didSelectedItemCell = ^(NSInteger index) {
-            NSLog(@"Index - %@", @(index));
-        };
 
         cell.carousel.cellForItemAtIndex = ^(KLCarouselCell * _Nonnull carouselCell, NSArray * _Nonnull images, NSInteger index) {
             [carouselCell.imageView sd_setImageWithURL:[NSURL URLWithString:images[index]]];
         };
         
-        cell.carousel.images = @[@"https://ss2.bdstatic.com/70cFvnSh_Q1YnxGkpoWK1HF6hhy/it/u=2373773158,2067703814&fm=26&gp=0.jpg",
-                                    @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575283456550&di=372bae7542877af3f89f92831c18a196&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201610%2F12%2F20161012124101_aX4Cf.png",
-                                    @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575283456550&di=6b426d81feebc8e60676a1caae07450f&imgtype=0&src=http%3A%2F%2Fb-ssl.duitang.com%2Fuploads%2Fitem%2F201610%2F13%2F20161013192818_AHfhJ.jpeg"];
+        cell.carousel.didSelectedItemCell = ^(NSInteger index) {
+            NSLog(@"Index - %@", @(index));
+        };
+        
+        cell.carousel.images = @[@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575350450056&di=093acc9c8ae66d4b7c917e4c2759a58e&imgtype=0&src=http%3A%2F%2Fn.sinaimg.cn%2Ffinance%2Fcrawl%2F93%2Fw550h343%2F20180812%2FoFDt-hhqtawx5770711.jpg",
+                                    @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575350450056&di=093acc9c8ae66d4b7c917e4c2759a58e&imgtype=0&src=http%3A%2F%2Fn.sinaimg.cn%2Ffinance%2Fcrawl%2F93%2Fw550h343%2F20180812%2FoFDt-hhqtawx5770711.jpg",
+                                    @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575350450056&di=093acc9c8ae66d4b7c917e4c2759a58e&imgtype=0&src=http%3A%2F%2Fn.sinaimg.cn%2Ffinance%2Fcrawl%2F93%2Fw550h343%2F20180812%2FoFDt-hhqtawx5770711.jpg"];
         [cell.carousel reloadData];
         
         return cell;
@@ -88,10 +97,12 @@
     else if (indexPath.section == 2) {
         KLHomeImageTitleCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:KLHomeImageTitleCell.description forIndexPath:indexPath];
         cell.textLabel.text = self.texts[indexPath.row];
+        [cell.imageView sd_setImageWithURL:[NSURL URLWithString:@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575350450056&di=093acc9c8ae66d4b7c917e4c2759a58e&imgtype=0&src=http%3A%2F%2Fn.sinaimg.cn%2Ffinance%2Fcrawl%2F93%2Fw550h343%2F20180812%2FoFDt-hhqtawx5770711.jpg"]];
         return cell;
     }
     
     KLHomeImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:KLHomeImageCell.description forIndexPath:indexPath];
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575350450056&di=093acc9c8ae66d4b7c917e4c2759a58e&imgtype=0&src=http%3A%2F%2Fn.sinaimg.cn%2Ffinance%2Fcrawl%2F93%2Fw550h343%2F20180812%2FoFDt-hhqtawx5770711.jpg"]];
  
     return cell;
 }
@@ -99,7 +110,7 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewFlowLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.section) {
         case 0:
-            return CGSizeMake(0, Auto(220));
+            return CGSizeMake(0, Auto(200));
         case 1:
             return CGSizeMake(0, Auto(125));
         case 2: {
@@ -144,7 +155,7 @@
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     
     if (section == [self numberOfSectionsInCollectionView:collectionView] - 1) {
-        return UIEdgeInsetsMake(0, 10, Auto_Bottom() + 10, 10); // 底部扩展区域
+        return UIEdgeInsetsMake(0, 10, @available(iOS 13.0, *) ? (Auto_Bottom() + 10) : 10, 10); // 底部扩展区域
     }
     
     switch (section) {
@@ -158,18 +169,18 @@
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumLineSpacingForSectionAtIndex:(NSInteger)section {
     switch (section) {
         case 2:
-            return 1;
+            return 5;
         default:
-            return 0;
+            return 0.5;
     }
 }
 
 - (CGFloat)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout minimumInteritemSpacingForSectionAtIndex:(NSInteger)section {
     switch (section) {
         case 2:
-            return 1;
+            return 5;
         default:
-            return 0;
+            return 0.5;
     }
 }
 
@@ -182,6 +193,16 @@
     }
 }
 
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView {
+    CGFloat position = scrollView.contentOffset.y;
+    if (position < -scrollView.contentInset.top) {
+        position = -scrollView.contentInset.top;
+    } else if (position > -Auto_Top()) {
+        position = -Auto_Top();
+    }
+    self.navigationView.frame = CGRectMake(self.navigationView.x, self.navigationView.y, self.navigationView.w, fabs(position));
+}
+
 // MARK: - Getter
 - (UICollectionView *)collectionView {
     if (_collectionView == nil) {
@@ -190,10 +211,11 @@
         layout.header_suspension = NO;
         layout.delegate = self;
         _collectionView = [UICollectionView.alloc initWithFrame:CGRectZero collectionViewLayout:layout];
+        _collectionView.backgroundColor = UIColor.clearColor;
         _collectionView.showsVerticalScrollIndicator = NO;
-        _collectionView.backgroundColor = UIColor.whiteColor;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
+        _collectionView.contentInset = UIEdgeInsetsMake(100, 0, 0, 0);
         [_collectionView registerClass:KLHomeImageCell.class forCellWithReuseIdentifier:KLHomeImageCell.description];
         [_collectionView registerClass:KLHomeCarouselCell.class forCellWithReuseIdentifier:KLHomeCarouselCell.description];
         [_collectionView registerClass:KLHomeImageTitleCell.class forCellWithReuseIdentifier:KLHomeImageTitleCell.description];

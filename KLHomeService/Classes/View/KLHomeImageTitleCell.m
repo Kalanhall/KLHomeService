@@ -15,6 +15,8 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.contentView.backgroundColor = [UIColor kl_colorWithHexNumber:0xF9F9F9];
+        self.contentView.layer.cornerRadius = 5;
+        self.contentView.layer.masksToBounds = YES;
         
         self.imageView = UIImageView.alloc.init;
         self.imageView.contentMode = UIViewContentModeScaleAspectFill;
