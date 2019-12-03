@@ -15,6 +15,7 @@
 #import "KLHomeImageCell.h"
 #import "KLHomeCarouselCell.h"
 #import "KLHomeImageTitleCell.h"
+#import "KLDynamicNavigationBar.h"
 
 @interface KLHomeController ()
 <
@@ -25,7 +26,7 @@
 >
 
 @property (strong, nonatomic) UICollectionView *collectionView;
-@property (strong, nonatomic) UIView *navigationView;
+@property (strong, nonatomic) KLDynamicNavigationBar *dynamicBar;
 @property (strong, nonatomic) NSMutableArray *texts;
 
 @end
@@ -36,7 +37,7 @@
     [super viewDidLoad];
 
     self.view.backgroundColor = UIColor.whiteColor;
-    self.kl_barHidden = YES;
+    self.kl_barAlpha = 0;
     self.kl_barStyle = UIBarStyleBlackOpaque;
     
     [self.view addSubview:self.collectionView];
@@ -44,10 +45,25 @@
         make.edges.equalTo(self.view);
     }];
     
-    self.navigationView = UIView.alloc.init;
-    self.navigationView.backgroundColor = UIColor.redColor;
-    self.navigationView.frame = CGRectMake(0, 0, self.view.bounds.size.width, 100);
-    [self.view addSubview:self.navigationView];
+    self.dynamicBar = KLDynamicNavigationBar.alloc.init;
+    self.dynamicBar.backgroundColor = UIColor.redColor;
+    self.dynamicBar.frame = CGRectMake(0, 0, self.view.bounds.size.width, 100);
+    [self.view addSubview:self.dynamicBar];
+    
+    UIButton *item1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    item1.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [item1 setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
+    [item1 setImage:[UIImage imageNamed:@"相机"] forState:UIControlStateNormal];
+    UIButton *item2 = [UIButton buttonWithType:UIButtonTypeCustom];
+    item2.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [item2 setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
+    [item2 setImage:[UIImage imageNamed:@"消息"] forState:UIControlStateNormal];
+    self.dynamicBar.rightViews = @[item2, item1];
+    UIButton *left = [UIButton buttonWithType:UIButtonTypeCustom];
+    left.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [left setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+    [left setImage:[UIImage imageNamed:@"京东"] forState:UIControlStateNormal];
+    self.dynamicBar.leftView = left;
     
     dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
         
@@ -194,13 +210,7 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    CGFloat position = scrollView.contentOffset.y;
-    if (position < -scrollView.contentInset.top) {
-        position = -scrollView.contentInset.top;
-    } else if (position > -Auto_Top()) {
-        position = -Auto_Top();
-    }
-    self.navigationView.frame = CGRectMake(self.navigationView.x, self.navigationView.y, self.navigationView.w, fabs(position));
+    [self.dynamicBar dynamicWithScrollView:scrollView rightSpace:70];
 }
 
 // MARK: - Getter
