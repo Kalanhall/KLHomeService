@@ -27,7 +27,6 @@
 
 @property (strong, nonatomic) UICollectionView *collectionView;
 @property (strong, nonatomic) KLDynamicNavigationBar *dynamicBar;
-@property (strong, nonatomic) UIImageView *nomalView;
 @property (strong, nonatomic) NSMutableArray *texts;
 
 @end
@@ -41,23 +40,16 @@
     self.kl_barAlpha = 0;
     self.kl_barStyle = UIBarStyleBlackOpaque;
     
-    self.nomalView = UIImageView.alloc.init;
-    self.nomalView.contentMode = UIViewContentModeTop;
-    self.nomalView.image = [UIImage kl_imageWithImageName:@"top2" inBundle:[NSBundle bundleForClass:self.class]];
-    [self.view addSubview:self.nomalView];
-    [self.nomalView mas_makeConstraints:^(MASConstraintMaker *make) {
-        make.left.top.right.mas_equalTo(0);
-        make.height.mas_equalTo(200);
-    }];
-    
     [self.view addSubview:self.collectionView];
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
     
-    self.dynamicBar = KLDynamicNavigationBar.alloc.init;
-    self.dynamicBar.frame = CGRectMake(0, 0, self.view.bounds.size.width, 100);
-    self.dynamicBar.backgroundView.image = [UIImage kl_imageWithImageName:@"top1" inBundle:[NSBundle bundleForClass:self.class]];
+    self.dynamicBar = [KLDynamicNavigationBar.alloc initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 100)
+                                                       scrollView:self.collectionView];
+    self.dynamicBar.backgroundView.image = [UIImage kl_imageWithImageName:@"bot" inBundle:[NSBundle bundleForClass:self.class]];
+    self.dynamicBar.botView.image = [UIImage kl_imageWithImageName:@"bot" inBundle:[NSBundle bundleForClass:self.class]];
+    self.dynamicBar.topView.image = [UIImage kl_imageWithImageName:@"top" inBundle:[NSBundle bundleForClass:self.class]];
     [self.view addSubview:self.dynamicBar];
     
     UIButton *item1 = [UIButton buttonWithType:UIButtonTypeCustom];
@@ -136,7 +128,7 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewFlowLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.section) {
         case 0:
-            return CGSizeMake(0, Auto(200));
+            return CGSizeMake(0, Auto(150));
         case 1:
             return CGSizeMake(0, Auto(125));
         case 2: {
@@ -220,13 +212,7 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self.dynamicBar dynamicWithScrollView:scrollView rightSpace:80];
-    
-    CGFloat position = scrollView.contentOffset.y;
-    if (position <= -scrollView.contentInset.top) {
-        position = -scrollView.contentInset.top;
-    }
-    self.nomalView.transform = CGAffineTransformMakeTranslation(0, - position - scrollView.contentInset.top);
+    [self.dynamicBar dynamicWithRightSpace:80];
 }
 
 // MARK: - Getter
