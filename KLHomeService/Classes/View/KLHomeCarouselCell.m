@@ -15,7 +15,7 @@
 
 @implementation KLHomeCarouselCell
 
-static CGFloat const space = 20;
+static CGFloat const space = 10;
 
 - (instancetype)initWithFrame:(CGRect)frame
 {
@@ -24,7 +24,7 @@ static CGFloat const space = 20;
         self.contentView.backgroundColor = UIColor.clearColor;
         
         KLCarouselViewLayout *layout = KLCarouselViewLayout.alloc.init;
-        layout.itemSpacing = space * 0.5;
+        layout.itemSpacing = space;
         layout.itemHorizontalCenter = YES;
         layout.itemVerticalCenter = YES;
         layout.layoutType = KLCarouselTransformLayoutTypeNormal;
@@ -37,6 +37,7 @@ static CGFloat const space = 20;
         self.carousel.control.currentPageIndicatorSize = CGSizeMake(10, 3);
         self.carousel.control.pageIndicatorSpaing = 4;
         self.carousel.collectionView.backgroundColor = UIColor.clearColor;
+        self.carousel.autoScrollInterval = 5;
         [self.contentView addSubview:self.carousel];
     }
     return self;
@@ -47,8 +48,8 @@ static CGFloat const space = 20;
     [super layoutSubviews];
     // 控件以frame布局，需要重置控件内部控件尺寸
     self.carousel.frame = self.frame;
-    self.layout.itemSize = CGSizeMake(self.frame.size.width - space, self.frame.size.height - space);
-    self.carousel.control.frame = CGRectMake(0, self.frame.size.height - space * 0.5 - 15, CGRectGetWidth(self.frame), 15);
+    self.layout.itemSize = CGSizeMake(self.frame.size.width - space * 2, self.frame.size.height - space);
+    self.carousel.control.frame = CGRectMake(0, self.frame.size.height - space - 15, CGRectGetWidth(self.frame), 15);
 }
 
 @end

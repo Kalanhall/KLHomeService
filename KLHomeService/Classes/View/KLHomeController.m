@@ -47,8 +47,7 @@
         make.edges.equalTo(self.view);
     }];
 
-    self.dynamicBar = [KLDynamicNavigationBar.alloc initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, Auto_Top() + 40)
-                                                       scrollView:self.collectionView];
+    self.dynamicBar = [KLDynamicNavigationBar.alloc initWithScrollView:self.collectionView];
     self.dynamicBar.backgroundView.image = [UIImage kl_imageWithImageName:@"bot" inBundle:[NSBundle bundleForClass:self.class]];
     self.dynamicBar.botView.image = [UIImage kl_imageWithImageName:@"bot" inBundle:[NSBundle bundleForClass:self.class]];
     self.dynamicBar.topView.image = [UIImage kl_imageWithImageName:@"top" inBundle:[NSBundle bundleForClass:self.class]];
@@ -199,7 +198,7 @@
     
     switch (section) {
         case 0:
-            return UIEdgeInsetsMake(0, 0, 0, 0);
+            return UIEdgeInsetsMake(0, 0, 5, 0);
         default:
             return UIEdgeInsetsMake(0, 10, 10, 10);
     }

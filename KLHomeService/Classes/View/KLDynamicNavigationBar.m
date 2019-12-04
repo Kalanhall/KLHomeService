@@ -20,8 +20,20 @@
 
 @implementation KLDynamicNavigationBar
 
+- (instancetype)initWithScrollView:(UIScrollView *)scrollView
+{
+    return [self initWithFrame:CGRectMake(0, 0, ScreenWidth(), Auto_Top() + 37) scrollView:scrollView];
+}
+
 - (instancetype)initWithFrame:(CGRect)frame scrollView:(UIScrollView *)scrollView
 {
+    // 高度限制
+    if (CGRectEqualToRect(frame, CGRectZero)) {
+        frame = CGRectMake(0, 0, ScreenWidth(), Auto_Top() + 37);
+    } else if (frame.size.height < Auto_Top() + 37) {
+        frame = CGRectMake(frame.origin.x, frame.origin.y, frame.size.width, Auto_Top() + 37);
+    }
+    
     self = [super initWithFrame:frame];
     if (self) {
         self.scrollView = scrollView;

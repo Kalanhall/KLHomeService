@@ -27,8 +27,17 @@ NS_ASSUME_NONNULL_BEGIN
 - (instancetype)init NS_UNAVAILABLE;
 - (instancetype)initWithFrame:(CGRect)frame NS_UNAVAILABLE;
 
+/// 构造方法，创建一个和屏幕宽度一样，拥有最小高度的实例
+///
+/// @Param scrollView 需要监听位移的滚动视图
+///
+/// @Return KLDynamicNavigationBar 实例
+///
+- (instancetype)initWithScrollView:(UIScrollView *)scrollView;
+
 /// 构造方法
-/// @Param frame bar尺寸
+///
+/// @Param frame bar尺寸，有高度限制，最小高度 = 导航栏高度 + 37（搜索栏高度30 + 间距7）
 /// @Param scrollView 需要监听位移的滚动视图
 ///
 /// @Return KLDynamicNavigationBar 实例
