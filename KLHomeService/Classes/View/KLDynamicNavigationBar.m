@@ -44,10 +44,9 @@
         self.searchBar.backgroundColor = UIColor.whiteColor;
         self.searchBar.layer.cornerRadius = 15;
         self.searchBar.layer.masksToBounds = YES;
-        self.searchBar.attributedPlaceholder = [NSAttributedString.alloc initWithString:@"搜索"
-                                                                             attributes:@{NSForegroundColorAttributeName:[UIColor kl_colorWithHexNumber:0x777777],
-                                                                                          NSFontAttributeName:[UIFont boldSystemFontOfSize:13]
-                                                                             }];
+        self.searchBar.font = [UIFont boldSystemFontOfSize:13];
+        self.searchBar.text = @"搜索";
+        self.searchBar.textColor = [UIColor kl_colorWithHexNumber:0x777777];
         self.searchBar.delegate = self;
         [self addSubview:self.searchBar];
         [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
@@ -57,11 +56,14 @@
             make.bottom.mas_equalTo(-7);
         }];
         
+        UIView *lcontent = UIView.alloc.init;
+        lcontent.frame = CGRectMake(0, 0, 40, 30);
         UIImageView *search = UIImageView.alloc.init;
         search.image = [UIImage kl_imageWithImageName:@"search" inBundle:[NSBundle bundleForClass:self.class]];
         search.contentMode = UIViewContentModeCenter;
-        search.frame = CGRectMake(0, 0, 40, 30);
-        self.searchBar.leftView = search;
+        search.frame = lcontent.frame;
+        [lcontent addSubview:search];
+        self.searchBar.leftView = lcontent;
         self.searchBar.leftViewMode = UITextFieldViewModeAlways;
         
         self.botView = UIImageView.alloc.init;
@@ -211,11 +213,9 @@
 }
 
 - (void)setSearchBarPlaceholder:(NSString *)searchBarPlaceholder {
-    _searchBarPlaceholder = searchBarPlaceholder ? : @"";
-    self.searchBar.attributedPlaceholder = [NSAttributedString.alloc initWithString:searchBarPlaceholder
-                                                                         attributes:@{NSForegroundColorAttributeName:[UIColor kl_colorWithHexNumber:0x777777],
-                                                                                      NSFontAttributeName:[UIFont boldSystemFontOfSize:13]
-                                                                         }];
+    _searchBarPlaceholder = searchBarPlaceholder;
+    self.searchBar.font = [UIFont boldSystemFontOfSize:13];
+    self.searchBar.text = searchBarPlaceholder;
 }
 
 @end
