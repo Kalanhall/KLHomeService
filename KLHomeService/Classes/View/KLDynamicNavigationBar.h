@@ -11,17 +11,26 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface KLDynamicNavigationBar : UIView
 
-@property (strong, nonatomic, readonly) UIScrollView *scrollView;   // 被监听的滚动视图
-@property (strong, nonatomic) UIImageView *backgroundView;          // 导航栏背景图
-@property (strong, nonatomic) UIImageView *botView;                 // 导航栏背景图底部占位图，图片与backgroundView一致，层级位于scrollView的superView上
-@property (strong, nonatomic) UIImageView *topView;                 // 导航栏背景图底部活动预告图，层级位于scrollView的superView上
+/// 被监听的滚动视图
+@property (strong, nonatomic, readonly) UIScrollView *scrollView;
+/// 导航栏背景图
+@property (strong, nonatomic) UIImageView *backgroundView;
+/// 导航栏背景图底部占位图，图片与backgroundView一致，层级位于scrollView的superView上
+@property (strong, nonatomic) UIImageView *botView;
+/// 导航栏背景图底部活动预告图，层级位于scrollView的superView上
+@property (strong, nonatomic) UIImageView *topView;
+/// 搜索栏
 @property (strong, nonatomic, readonly) UITextField *searchBar;
-@property (copy  , nonatomic) NSString *searchBarPlaceholder;
+/// 单个左视图，其约束宽度为屏宽一半
 @property (strong, nonatomic) UIView *leftView;
+/// 右视图
 @property (strong, nonatomic) UIView *rightView;
+/// 用法参考NavigationItem
 @property (strong, nonatomic) NSArray <UIView *> *leftViews;
+/// 用法参考NavigationItem
 @property (strong, nonatomic) NSArray <UIView *> *rightViews;
 
+/// 点击搜索栏回调
 @property (strong, nonatomic) void (^searchBarDidBeginEditing)(void);
 
 - (instancetype)init NS_UNAVAILABLE;

@@ -37,6 +37,7 @@
     self = [super initWithFrame:frame];
     if (self) {
         self.scrollView = scrollView;
+        self.scrollView.backgroundColor = UIColor.clearColor;
         self.scrollView.contentInset = UIEdgeInsetsMake(frame.size.height,
                                                         self.scrollView.contentInset.left,
                                                         self.scrollView.contentInset.bottom,
@@ -95,6 +96,7 @@
             make.left.right.bottom.mas_equalTo(self.botView);
             make.height.mas_equalTo(self.scrollView.superview);
         }];
+        self.topView.alpha = 0;
     }
     return self;
 }
@@ -222,12 +224,6 @@
             }];
         }
     }];
-}
-
-- (void)setSearchBarPlaceholder:(NSString *)searchBarPlaceholder {
-    _searchBarPlaceholder = searchBarPlaceholder;
-    self.searchBar.font = [UIFont boldSystemFontOfSize:13];
-    self.searchBar.text = searchBarPlaceholder;
 }
 
 @end
