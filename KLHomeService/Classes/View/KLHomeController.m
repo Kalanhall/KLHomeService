@@ -10,12 +10,14 @@
 @import Masonry;
 @import KLNavigationController;
 @import SDWebImage;
+@import MJRefresh;
 
 #import "KLHomeController.h"
 #import "KLHomeImageCell.h"
 #import "KLHomeCarouselCell.h"
 #import "KLHomeImageTitleCell.h"
 #import "KLDynamicNavigationBar.h"
+#import "KLHomeWebController.h"
 
 @interface KLHomeController ()
 <
@@ -44,8 +46,8 @@
     [self.collectionView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.edges.equalTo(self.view);
     }];
-    
-    self.dynamicBar = [KLDynamicNavigationBar.alloc initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, 100)
+
+    self.dynamicBar = [KLDynamicNavigationBar.alloc initWithFrame:CGRectMake(0, 0, self.view.bounds.size.width, Auto_Top() + 40)
                                                        scrollView:self.collectionView];
     self.dynamicBar.backgroundView.image = [UIImage kl_imageWithImageName:@"bot" inBundle:[NSBundle bundleForClass:self.class]];
     self.dynamicBar.botView.image = [UIImage kl_imageWithImageName:@"bot" inBundle:[NSBundle bundleForClass:self.class]];
@@ -76,6 +78,25 @@
         }
         [self.collectionView reloadData];
     });
+    
+    __weak typeof(self) weakself = self;
+    self.collectionView.mj_header = [MJRefreshGifHeader headerWithRefreshingBlock:^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [weakself.collectionView.mj_header endRefreshing];
+        });
+    }];
+    
+    MJRefreshGifHeader *header = (MJRefreshGifHeader *)self.collectionView.mj_header;
+    header.mj_h = 40;
+    header.lastUpdatedTimeLabel.hidden = YES;
+    header.stateLabel.textColor = UIColor.whiteColor;
+    header.stateLabel.font = [UIFont systemFontOfSize:13];
+    [header setTitle:@"下拉刷新" forState:MJRefreshStateIdle];
+    [header setTitle:@"更新中" forState:MJRefreshStateRefreshing];
+    [header setTitle:@"继续下拉有惊喜" forState:MJRefreshStatePulling];
+    [header setImages:nil forState:MJRefreshStateIdle];
+    [header setImages:nil forState:MJRefreshStateRefreshing];
+    [header setImages:nil forState:MJRefreshStatePulling];
 }
 
 - (NSInteger)numberOfSectionsInCollectionView:(UICollectionView *)collectionView {
@@ -105,9 +126,9 @@
             NSLog(@"Index - %@", @(index));
         };
         
-        cell.carousel.images = @[@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575350450056&di=093acc9c8ae66d4b7c917e4c2759a58e&imgtype=0&src=http%3A%2F%2Fn.sinaimg.cn%2Ffinance%2Fcrawl%2F93%2Fw550h343%2F20180812%2FoFDt-hhqtawx5770711.jpg",
-                                    @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575350450056&di=093acc9c8ae66d4b7c917e4c2759a58e&imgtype=0&src=http%3A%2F%2Fn.sinaimg.cn%2Ffinance%2Fcrawl%2F93%2Fw550h343%2F20180812%2FoFDt-hhqtawx5770711.jpg",
-                                    @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575350450056&di=093acc9c8ae66d4b7c917e4c2759a58e&imgtype=0&src=http%3A%2F%2Fn.sinaimg.cn%2Ffinance%2Fcrawl%2F93%2Fw550h343%2F20180812%2FoFDt-hhqtawx5770711.jpg"];
+        cell.carousel.images = @[@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575452488231&di=c7fda10d9b50e76da0e3e376e2de586c&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F012d3658de20b6a801219c77083959.jpg",
+                                    @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575452488231&di=c7fda10d9b50e76da0e3e376e2de586c&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F012d3658de20b6a801219c77083959.jpg",
+                                    @"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575452488231&di=c7fda10d9b50e76da0e3e376e2de586c&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F012d3658de20b6a801219c77083959.jpg"];
         [cell.carousel reloadData];
         
         return cell;
@@ -115,12 +136,12 @@
     else if (indexPath.section == 2) {
         KLHomeImageTitleCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:KLHomeImageTitleCell.description forIndexPath:indexPath];
         cell.textLabel.text = self.texts[indexPath.row];
-        [cell.imageView sd_setImageWithURL:[NSURL URLWithString:@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575350450056&di=093acc9c8ae66d4b7c917e4c2759a58e&imgtype=0&src=http%3A%2F%2Fn.sinaimg.cn%2Ffinance%2Fcrawl%2F93%2Fw550h343%2F20180812%2FoFDt-hhqtawx5770711.jpg"]];
+        [cell.imageView sd_setImageWithURL:[NSURL URLWithString:@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575452488231&di=c7fda10d9b50e76da0e3e376e2de586c&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F012d3658de20b6a801219c77083959.jpg"]];
         return cell;
     }
     
     KLHomeImageCell *cell = [collectionView dequeueReusableCellWithReuseIdentifier:KLHomeImageCell.description forIndexPath:indexPath];
-    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575350450056&di=093acc9c8ae66d4b7c917e4c2759a58e&imgtype=0&src=http%3A%2F%2Fn.sinaimg.cn%2Ffinance%2Fcrawl%2F93%2Fw550h343%2F20180812%2FoFDt-hhqtawx5770711.jpg"]];
+    [cell.imageView sd_setImageWithURL:[NSURL URLWithString:@"https://timgsa.baidu.com/timg?image&quality=80&size=b9999_10000&sec=1575452488231&di=c7fda10d9b50e76da0e3e376e2de586c&imgtype=0&src=http%3A%2F%2Fimg.zcool.cn%2Fcommunity%2F012d3658de20b6a801219c77083959.jpg"]];
  
     return cell;
 }
@@ -189,7 +210,7 @@
         case 2:
             return 5;
         default:
-            return 0.5;
+            return 0;
     }
 }
 
@@ -198,7 +219,7 @@
         case 2:
             return 5;
         default:
-            return 0.5;
+            return 0;
     }
 }
 
@@ -212,7 +233,26 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self.dynamicBar dynamicWithRightSpace:80];
+    [self.dynamicBar dynamicWithRightSpace:80 refreshHeight:self.collectionView.mj_header.mj_h];
+    
+    if (scrollView.contentOffset.y <= - scrollView.contentInset.top * 1.8) {
+        [(MJRefreshGifHeader *)self.collectionView.mj_header setTitle:@"松手得惊喜" forState:MJRefreshStatePulling];
+    } else {
+        [(MJRefreshGifHeader *)self.collectionView.mj_header setTitle:@"继续下拉有惊喜" forState:MJRefreshStatePulling];
+    }
+}
+
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate {
+    BOOL activity = scrollView.contentOffset.y <= - scrollView.contentInset.top * 1.8;
+    if (activity) {
+        NSLog(@"To Activity");
+        KLNavigationController *nav = [KLNavigationController.alloc initWithRootViewController:KLHomeWebController.new];
+        nav.modalPresentationStyle = UIModalPresentationFullScreen;
+        nav.modalTransitionStyle = UIModalTransitionStyleCrossDissolve;
+        [self presentViewController:nav animated:NO completion:^{
+            [self.collectionView.mj_header endRefreshing];
+        }];
+    }
 }
 
 // MARK: - Getter
@@ -227,7 +267,6 @@
         _collectionView.showsVerticalScrollIndicator = NO;
         _collectionView.delegate = self;
         _collectionView.dataSource = self;
-        _collectionView.contentInset = UIEdgeInsetsMake(100, 0, 0, 0);
         [_collectionView registerClass:KLHomeImageCell.class forCellWithReuseIdentifier:KLHomeImageCell.description];
         [_collectionView registerClass:KLHomeCarouselCell.class forCellWithReuseIdentifier:KLHomeCarouselCell.description];
         [_collectionView registerClass:KLHomeImageTitleCell.class forCellWithReuseIdentifier:KLHomeImageTitleCell.description];

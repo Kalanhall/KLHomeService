@@ -48,5 +48,6 @@ Pod::Spec.new do |s|
   s.dependency 'KLCarousel'
   s.dependency 'SDWebImage'
   s.dependency 'YKWoodpecker'
+  s.dependency 'MJRefresh'
   
 end
