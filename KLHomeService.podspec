@@ -45,6 +45,7 @@ Pod::Spec.new do |s|
   s.dependency 'KLUserInfoManager'
   s.dependency 'KLCollectionViewFlowLayout'
   s.dependency 'KLNavigationController'
+  s.dependency 'KLScaleNavigationBar'
   s.dependency 'KLCarousel'
   s.dependency 'SDWebImage'
   s.dependency 'YKWoodpecker'

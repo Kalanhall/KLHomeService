@@ -11,12 +11,12 @@
 @import KLNavigationController;
 @import SDWebImage;
 @import MJRefresh;
+@import KLScaleNavigationBar;
 
 #import "KLHomeController.h"
 #import "KLHomeImageCell.h"
 #import "KLHomeCarouselCell.h"
 #import "KLHomeImageTitleCell.h"
-#import "KLDynamicNavigationBar.h"
 #import "KLHomeWebController.h"
 
 @interface KLHomeController ()
@@ -28,7 +28,7 @@
 >
 
 @property (strong, nonatomic) UICollectionView *collectionView;
-@property (strong, nonatomic) KLDynamicNavigationBar *dynamicBar;
+@property (strong, nonatomic) KLScaleNavigationBar *dynamicBar;
 @property (strong, nonatomic) NSMutableArray *texts;
 
 @end
@@ -47,7 +47,7 @@
         make.edges.equalTo(self.view);
     }];
 
-    self.dynamicBar = [KLDynamicNavigationBar.alloc initWithScrollView:self.collectionView];
+    self.dynamicBar = [KLScaleNavigationBar.alloc initWithScrollView:self.collectionView];
     self.dynamicBar.backgroundView.image = [UIImage kl_imageWithImageName:@"bot" inBundle:[NSBundle bundleForClass:self.class]];
     self.dynamicBar.botView.image = [UIImage kl_imageWithImageName:@"bot" inBundle:[NSBundle bundleForClass:self.class]];
     self.dynamicBar.topView.image = [UIImage kl_imageWithImageName:@"top" inBundle:[NSBundle bundleForClass:self.class]];
@@ -148,9 +148,9 @@
 - (CGSize)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewFlowLayout *)collectionViewLayout sizeForItemAtIndexPath:(NSIndexPath *)indexPath {
     switch (indexPath.section) {
         case 0:
-            return CGSizeMake(0, Auto(150));
+            return CGSizeMake(0, KLAuto(150));
         case 1:
-            return CGSizeMake(0, Auto(125));
+            return CGSizeMake(0, KLAuto(125));
         case 2: {
             CGSize size = [collectionView kl_sizeForCellWithIdentifier:KLHomeImageTitleCell.description indexPath:indexPath fixedWidth:(collectionView.frame.size.width - 10 * 2 - 1)/ 2 configuration:^(__kindof KLHomeImageTitleCell *cell) {
                 cell.textLabel.text = self.texts[indexPath.row];
@@ -193,7 +193,7 @@
 - (UIEdgeInsets)collectionView:(UICollectionView *)collectionView layout:(UICollectionViewLayout*)collectionViewLayout insetForSectionAtIndex:(NSInteger)section {
     
     if (section == [self numberOfSectionsInCollectionView:collectionView] - 1) {
-        return UIEdgeInsetsMake(0, 10, @available(iOS 13.0, *) ? (Auto_Bottom() + 10) : 10, 10); // 底部扩展区域
+        return UIEdgeInsetsMake(0, 10, @available(iOS 13.0, *) ? (KLAutoBottom() + 10) : 10, 10); // 底部扩展区域
     }
     
     switch (section) {
@@ -232,7 +232,7 @@
 }
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView {
-    [self.dynamicBar dynamicWithRightSpace:80 refreshHeight:self.collectionView.mj_header.mj_h];
+    [self.dynamicBar scaleBarWithRightSpace:80 refreshHeight:self.collectionView.mj_header.mj_h];
     
     if (scrollView.contentOffset.y <= - scrollView.contentInset.top * 1.8) {
         [(MJRefreshGifHeader *)self.collectionView.mj_header setTitle:@"松手得惊喜" forState:MJRefreshStatePulling];

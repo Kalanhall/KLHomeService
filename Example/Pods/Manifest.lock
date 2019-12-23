@@ -16,7 +16,7 @@ PODS:
     - AFNetworking/NSURLSession
   - KLCache (1.0.1)
   - KLCarousel (1.0.3)
-  - KLCategory (1.0.3)
+  - KLCategory (1.0.5)
   - KLCollectionViewFlowLayout (1.0.0)
   - KLHomeService (0.0.1):
     - KLCarousel
@@ -25,8 +25,10 @@ PODS:
     - KLLeaks
     - KLNavigationController
     - KLNetworkModule
+    - KLScaleNavigationBar
     - KLUserInfoManager
     - Masonry
+    - MJRefresh
     - SDWebImage
     - YKWoodpecker
   - KLHomeServiceInterface (0.0.1):
@@ -36,14 +38,17 @@ PODS:
   - KLNavigationController (1.0.0)
   - KLNetworkModule (2.0.1):
     - AFNetworking
+  - KLScaleNavigationBar (1.0.3):
+    - Masonry
   - KLServer (1.0.0)
   - KLUserInfoManager (1.0.1):
     - KLCache (~> 1.0.0)
     - KLModel (~> 1.0.0)
   - Masonry (1.1.0)
-  - SDWebImage (5.3.2):
-    - SDWebImage/Core (= 5.3.2)
-  - SDWebImage/Core (5.3.2)
+  - MJRefresh (3.3.1)
+  - SDWebImage (5.4.0):
+    - SDWebImage/Core (= 5.4.0)
+  - SDWebImage/Core (5.4.0)
   - YKWoodpecker (1.1.1)
 
 DEPENDENCIES:
@@ -56,6 +61,7 @@ SPEC REPOS:
     - KLCarousel
     - KLCategory
     - KLModel
+    - KLScaleNavigationBar
     - KLUserInfoManager
   trunk:
     - AFNetworking
@@ -65,6 +71,7 @@ SPEC REPOS:
     - KLNetworkModule
     - KLServer
     - Masonry
+    - MJRefresh
     - SDWebImage
     - YKWoodpecker
 
@@ -78,18 +85,20 @@ SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   KLCache: 1bf0c622da8f7e4e3acf2569e1d02e60b11ff6e6
   KLCarousel: 65a3916f2b65ede1178af813edc1a47d343cf637
-  KLCategory: d4bbc38166372f1db7938a448ce2743eea42849f
+  KLCategory: a03a535bcd072f5ac82b0150840998fd1ef6727d
   KLCollectionViewFlowLayout: ff4568842fa31274509da4d30c60b7391526bed2
-  KLHomeService: 67d86d0b7b9e483e3d2c2f1142b31d10893d0cd7
+  KLHomeService: 6e677559aa64a74aa209da53a28559efed45ff5c
   KLHomeServiceInterface: 49ef569ef3ed43847883c23adc5603e2bc27212e
   KLLeaks: 2c098234d67353bc2286d4eec6feeff14163136c
   KLModel: 68eb4580c629621bec437e2a318101295a2f0965
   KLNavigationController: ed8a50a14e54a499d3a483c681bb7f394002a6bf
   KLNetworkModule: b9baa618cf4d1752145d74ef5c08d002f4cf6873
+  KLScaleNavigationBar: f2640b6eca02740af7cbd3d3b4d5ddaa4d31caad
   KLServer: b37b4d567aa189afe1284ed316b4419f2029221e
   KLUserInfoManager: 1602e368ddc874308cfc1e8fe9638979ab17e713
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
-  SDWebImage: 6ac2eb96571bff96ecde31a987172c5934a0eb7d
+  MJRefresh: eeda70fbf0ad277f3178cef1cd0c3532591d6237
+  SDWebImage: 5bf6aec6481ae2a062bdc59f9d6c1d1e552090e0
   YKWoodpecker: 446884788ccf1f1800781d50e503f9bdb0bdaebe
 
 PODFILE CHECKSUM: 4e03a8f3d7390ee2911f72d29d6de7468d2936f9
