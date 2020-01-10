@@ -15,8 +15,8 @@ PODS:
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
   - KLCache (1.0.1)
-  - KLCarousel (1.0.3)
-  - KLCategory (1.0.5)
+  - KLCarousel (1.0.4)
+  - KLCategory (1.0.9)
   - KLCollectionViewFlowLayout (1.0.0)
   - KLHomeService (0.0.1):
     - KLCarousel
@@ -30,7 +30,6 @@ PODS:
     - Masonry
     - MJRefresh
     - SDWebImage
-    - YKWoodpecker
   - KLHomeServiceInterface (0.0.1):
     - KLServer
   - KLLeaks (1.0.0)
@@ -46,10 +45,9 @@ PODS:
     - KLModel (~> 1.0.0)
   - Masonry (1.1.0)
   - MJRefresh (3.3.1)
-  - SDWebImage (5.4.0):
-    - SDWebImage/Core (= 5.4.0)
-  - SDWebImage/Core (5.4.0)
-  - YKWoodpecker (1.1.1)
+  - SDWebImage (5.4.2):
+    - SDWebImage/Core (= 5.4.2)
+  - SDWebImage/Core (5.4.2)
 
 DEPENDENCIES:
   - KLHomeService (from `../`)
@@ -73,7 +71,6 @@ SPEC REPOS:
     - Masonry
     - MJRefresh
     - SDWebImage
-    - YKWoodpecker
 
 EXTERNAL SOURCES:
   KLHomeService:
@@ -84,10 +81,10 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   KLCache: 1bf0c622da8f7e4e3acf2569e1d02e60b11ff6e6
-  KLCarousel: 65a3916f2b65ede1178af813edc1a47d343cf637
-  KLCategory: a03a535bcd072f5ac82b0150840998fd1ef6727d
+  KLCarousel: ff85addd353c871337132f1007004c42813ef68f
+  KLCategory: c5cce470a3099ce77cc4a801bec4ff7a65509b2a
   KLCollectionViewFlowLayout: ff4568842fa31274509da4d30c60b7391526bed2
-  KLHomeService: 6e677559aa64a74aa209da53a28559efed45ff5c
+  KLHomeService: a79eaed499359582a1a507844298ec8e66fdf2b2
   KLHomeServiceInterface: 49ef569ef3ed43847883c23adc5603e2bc27212e
   KLLeaks: 2c098234d67353bc2286d4eec6feeff14163136c
   KLModel: 68eb4580c629621bec437e2a318101295a2f0965
@@ -98,8 +95,7 @@ SPEC CHECKSUMS:
   KLUserInfoManager: 1602e368ddc874308cfc1e8fe9638979ab17e713
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
   MJRefresh: eeda70fbf0ad277f3178cef1cd0c3532591d6237
-  SDWebImage: 5bf6aec6481ae2a062bdc59f9d6c1d1e552090e0
-  YKWoodpecker: 446884788ccf1f1800781d50e503f9bdb0bdaebe
+  SDWebImage: 4ca2dc4eefae4224bea8f504251cda485a363745
 
 PODFILE CHECKSUM: 4e03a8f3d7390ee2911f72d29d6de7468d2936f9
 
