@@ -41,22 +41,10 @@
     "KLUserInfoManager": [
 
     ],
-    "KLCollectionViewFlowLayout": [
-
-    ],
     "KLNavigationController": [
 
     ],
     "KLScaleNavigationBar": [
-
-    ],
-    "KLCarousel": [
-
-    ],
-    "SDWebImage": [
-
-    ],
-    "MJRefresh": [
 
     ]
   }

@@ -6,8 +6,15 @@
 //
 
 #import "KLHomeController.h"
+@import KLConsole;
+@import KLCategory;
+@import KLNavigationController;
+#import "KLScaleNavigationBar.h"
 
-@interface KLHomeController ()
+@interface KLHomeController () <UITableViewDataSource, UITableViewDelegate>
+
+@property (strong, nonatomic) UITableView *tableView;
+@property (strong, nonatomic) KLScaleNavigationBar *navigationBar;
 
 @end
 
@@ -15,8 +22,68 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    self.view.backgroundColor = KLColor(0xF6F6F6);
+    self.kl_barHidden = YES;
     
-    self.view.backgroundColor = UIColor.orangeColor;
+    self.tableView = [UITableView.alloc initWithFrame:CGRectZero style:UITableViewStyleGrouped];
+    self.tableView.backgroundColor = UIColor.clearColor;
+    self.tableView.delegate = self;
+    self.tableView.dataSource = self;
+    self.tableView.rowHeight = UITableViewAutomaticDimension;
+    self.tableView.estimatedRowHeight = 100;
+    if (@available(iOS 11.0, *)) {
+        self.tableView.contentInsetAdjustmentBehavior = UIScrollViewContentInsetAdjustmentNever;
+    } else {
+        self.automaticallyAdjustsScrollViewInsets = NO;
+    }
+    [self.view addSubview:self.tableView];
+    [self.tableView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.mas_equalTo(0);
+    }];
+    [self.tableView registerClass:UITableViewCell.class forCellReuseIdentifier:UITableViewCell.description];
+    
+    self.navigationBar = [KLScaleNavigationBar.alloc initWithFrame:CGRectZero scrollView:self.tableView];
+    self.navigationBar.backgroundView.image = [UIImage kl_imageWithImageName:@"jd02" inBundle:[NSBundle bundleForClass:self.class]];
+    self.navigationBar.searchbackgroundView.image = [UIImage kl_imageWithImageName:@"jd03" inBundle:[NSBundle bundleForClass:self.class]];
+    [self.view addSubview:self.navigationBar];
+    
+    UIButton *item1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    item1.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [item1 setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
+    [item1 setImage:[UIImage kl_imageWithImageName:@"jd06" inBundle:[NSBundle bundleForClass:self.class]] forState:UIControlStateNormal];
+    UIButton *item2 = [UIButton buttonWithType:UIButtonTypeCustom];
+    item2.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [item2 setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
+    [item2 setImage:[UIImage kl_imageWithImageName:@"jd07" inBundle:[NSBundle bundleForClass:self.class]] forState:UIControlStateNormal];
+    self.navigationBar.rightViews = @[item2, item1];
+    UIButton *left = [UIButton buttonWithType:UIButtonTypeCustom];
+    left.imageView.contentMode = UIViewContentModeScaleAspectFit;
+    [left setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
+    [left setImage:[UIImage kl_imageWithImageName:@"jd01" inBundle:[NSBundle bundleForClass:self.class]] forState:UIControlStateNormal];
+    self.navigationBar.leftView = left;
+
+}
+
+- (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
+{
+    return 1;
+}
+
+- (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
+{
+    return 20;
+}
+
+- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:UITableViewCell.description];
+    
+    return cell;
+}
+
+- (void)scrollViewDidScroll:(UIScrollView *)scrollView
+{
+    [self.navigationBar scaleBarWithRightSpace:80 refreshHeight:0];
 }
 
 @end

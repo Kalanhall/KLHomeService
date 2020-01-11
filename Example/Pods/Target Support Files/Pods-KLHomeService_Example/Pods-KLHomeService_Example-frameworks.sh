@@ -163,9 +163,7 @@ strip_invalid_archs() {
 if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/KLCache/KLCache.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/KLCarousel/KLCarousel.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/KLCategory/KLCategory.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/KLCollectionViewFlowLayout/KLCollectionViewFlowLayout.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/KLHomeService/KLHomeService.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/KLHomeServiceInterface/KLHomeServiceInterface.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/KLLeaks/KLLeaks.framework"
@@ -175,16 +173,12 @@ if [[ "$CONFIGURATION" == "Debug" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/KLScaleNavigationBar/KLScaleNavigationBar.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/KLServer/KLServer.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/KLUserInfoManager/KLUserInfoManager.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework"
 fi
 if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/AFNetworking/AFNetworking.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/KLCache/KLCache.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/KLCarousel/KLCarousel.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/KLCategory/KLCategory.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/KLCollectionViewFlowLayout/KLCollectionViewFlowLayout.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/KLHomeService/KLHomeService.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/KLHomeServiceInterface/KLHomeServiceInterface.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/KLLeaks/KLLeaks.framework"
@@ -194,9 +188,7 @@ if [[ "$CONFIGURATION" == "Release" ]]; then
   install_framework "${BUILT_PRODUCTS_DIR}/KLScaleNavigationBar/KLScaleNavigationBar.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/KLServer/KLServer.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/KLUserInfoManager/KLUserInfoManager.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/MJRefresh/MJRefresh.framework"
   install_framework "${BUILT_PRODUCTS_DIR}/Masonry/Masonry.framework"
-  install_framework "${BUILT_PRODUCTS_DIR}/SDWebImage/SDWebImage.framework"
 fi
 if [ "${COCOAPODS_PARALLEL_CODE_SIGN}" == "true" ]; then
   wait

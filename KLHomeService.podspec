@@ -36,18 +36,13 @@ Pod::Spec.new do |s|
     'KLHomeService' => ['KLHomeService/Assets/*']
   }
 
-  s.public_header_files = 'KLHomeService/Classes/*.{h}'
   # s.frameworks = 'UIKit', 'MapKit'
-  s.dependency 'Masonry'
   s.dependency 'KLLeaks'
+  s.dependency 'KLConsole'
   s.dependency 'KLCategory'
   s.dependency 'KLNetworkModule'
   s.dependency 'KLUserInfoManager'
-  s.dependency 'KLCollectionViewFlowLayout'
   s.dependency 'KLNavigationController'
-  s.dependency 'KLScaleNavigationBar'
-  s.dependency 'KLCarousel'
-  s.dependency 'SDWebImage'
-  s.dependency 'MJRefresh'
+  s.dependency 'Masonry'
   
 end
