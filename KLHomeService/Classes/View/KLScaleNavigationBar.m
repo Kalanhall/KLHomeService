@@ -12,9 +12,9 @@
 
 @property (strong, nonatomic) UIScrollView *scrollView;
 @property (strong, nonatomic) UIImageView *backgroundView;
-@property (strong, nonatomic) UIImageView *searchbackgroundView;
-@property (strong, nonatomic) UIImageView *botView;
-@property (strong, nonatomic) UIImageView *topView;
+@property (strong, nonatomic) UIImageView *searchBackgroundView;
+@property (strong, nonatomic) UIImageView *bannerBackgroundView;
+@property (strong, nonatomic) UIImageView *activityView;
 @property (strong, nonatomic) UITextField *searchBar;
 @property (strong, nonatomic) UIImageView *searchBarLeftView;
 @property (strong, nonatomic) UIImageView *searchBarRightView;
@@ -45,25 +45,37 @@
         self.contenTopInset = scrollView.contentInset.top;
         NSAssert(scrollView.superview != nil, @"scrollView 必须先添加到self.view上");
         
-        self.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1];
-        
         self.backgroundView = UIImageView.alloc.init;
         self.backgroundView.contentMode = UIViewContentModeScaleAspectFill;
         self.backgroundView.clipsToBounds = YES;
-        [self addSubview:self.backgroundView];
+        self.backgroundView.backgroundColor = [UIColor colorWithRed:0.96 green:0.96 blue:0.96 alpha:1];
+        [self.scrollView.superview addSubview:self.backgroundView];
         [self.backgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.top.right.mas_equalTo(0);
             make.height.mas_equalTo(UIApplication.sharedApplication.statusBarFrame.size.height + 44.0);
         }];
         
-        self.searchbackgroundView = UIImageView.alloc.init;
-        self.searchbackgroundView.contentMode = UIViewContentModeScaleAspectFill;
-        self.searchbackgroundView.clipsToBounds = YES;
-        [self insertSubview:self.searchbackgroundView belowSubview:self.backgroundView];
+        self.searchBackgroundView = UIImageView.alloc.init;
+        self.searchBackgroundView.contentMode = UIViewContentModeScaleAspectFill;
+        self.searchBackgroundView.clipsToBounds = YES;
+        self.searchBackgroundView.backgroundColor = self.backgroundView.backgroundColor;
+        [self.scrollView.superview insertSubview:self.searchBackgroundView belowSubview:self.backgroundView];
+        [self.searchBackgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.backgroundView.mas_bottom);
+            make.left.right.mas_equalTo(0);
+            make.height.mas_equalTo(41);
+        }];
         
-        [self.searchbackgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.bottom.right.mas_equalTo(0);
-            make.top.mas_lessThanOrEqualTo(self.backgroundView.mas_bottom);
+        _bannerHeight = MIN(UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) / 375.0 * 140;
+        self.bannerBackgroundView = UIImageView.alloc.init;
+        self.bannerBackgroundView.contentMode = UIViewContentModeScaleAspectFill;
+        self.bannerBackgroundView.clipsToBounds = YES;
+        self.bannerBackgroundView.backgroundColor = self.backgroundView.backgroundColor;
+        [self.scrollView.superview insertSubview:self.bannerBackgroundView belowSubview:self.scrollView];
+        [self.bannerBackgroundView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.mas_equalTo(self.searchBackgroundView.mas_bottom);
+            make.left.right.mas_equalTo(0);
+            make.height.mas_equalTo(_bannerHeight);
         }];
         
         self.searchBar = UITextField.alloc.init;
@@ -102,26 +114,26 @@
         self.searchBar.rightView = rcontent;
         self.searchBar.rightViewMode = UITextFieldViewModeAlways;
         
-        self.botView = UIImageView.alloc.init;
-        self.botView.clipsToBounds = YES;
-        self.botView.contentMode = UIViewContentModeTop;
-        [self.scrollView.superview insertSubview:self.botView belowSubview:self.scrollView];
-        [self.botView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.top.right.mas_equalTo(0);
-            make.height.mas_equalTo(frame.size.height * 1.8);
+        self.activityView = UIImageView.alloc.init;
+        self.activityView.clipsToBounds = YES;
+        self.activityView.contentMode = UIViewContentModeScaleAspectFill;
+        [self.scrollView.superview insertSubview:self.activityView belowSubview:self.scrollView];
+        [self.activityView mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.left.right.mas_equalTo(0);
+            make.bottom.mas_equalTo(self.scrollView.superview.mas_top).offset(frame.size.height * 1.8);
+            make.height.mas_equalTo(UIScreen.mainScreen.bounds.size.height);
         }];
-        
-        self.topView = UIImageView.alloc.init;
-        self.topView.clipsToBounds = YES;
-        self.topView.contentMode = UIViewContentModeScaleAspectFill;
-        [self.scrollView.superview insertSubview:self.topView belowSubview:self.scrollView];
-        [self.topView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.bottom.mas_equalTo(self.botView);
-            make.height.mas_equalTo(self.scrollView.superview);
-        }];
-        self.topView.alpha = 0;
+        self.activityView.alpha = 0;
     }
     return self;
+}
+
+- (void)setBannerHeight:(CGFloat)bannerHeight
+{
+    _bannerHeight = bannerHeight;
+    [self.bannerBackgroundView mas_updateConstraints:^(MASConstraintMaker *make) {
+        make.height.mas_equalTo(bannerHeight);
+    }];
 }
 
 - (BOOL)textFieldShouldBeginEditing:(UITextField *)textField {
@@ -133,25 +145,31 @@
 
 - (void)scaleBarWithRightSpace:(CGFloat)space refreshHeight:(CGFloat)height {
     CGFloat position = self.scrollView.contentOffset.y;
-    height = height > 0 ? : 44.0;
+    height = height > 0 ? height : 40.0;
     
     // 背景图临界值处理
     if (position < -self.contenTopInset) {
         // 下拉透明度处理 & 占位图/广告图 位移处理
-        CGFloat alpha = fabs(position + self.contenTopInset) / height;
+        CGFloat alpha = fabs(position + self.contenTopInset) / 30; // 透明度变化范围30pt
         self.alpha = 1 - alpha;
-        self.topView.alpha = alpha;
+        self.activityView.alpha = alpha;
+        self.backgroundView.alpha = 1 - alpha;
+        self.searchBackgroundView.alpha = 1 - alpha;
+        self.backgroundView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
         if (fabs(position + self.contenTopInset) >= height) {
-            self.topView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset - height);
+            self.activityView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset - height);
         }
-        self.botView.transform = CGAffineTransformIdentity;
     } else {
         // 上拉透明度处理 & 占位图/广告图 位移处理
         self.alpha = 1;
-        self.topView.alpha = 0;
-        self.topView.transform = CGAffineTransformIdentity;
-        self.botView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
+        self.activityView.alpha = 0;
+        self.backgroundView.alpha = 1;
+        self.searchBackgroundView.alpha = 1;
+        self.activityView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
+        self.backgroundView.transform = CGAffineTransformIdentity;
     }
+    self.searchBackgroundView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
+    self.bannerBackgroundView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
     
     // 导航栏临界值处理
     if (position < -self.contenTopInset) {
