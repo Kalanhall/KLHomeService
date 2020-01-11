@@ -158,10 +158,9 @@
         self.backgroundView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
         self.searchBackgroundView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
         self.bannerBackgroundView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
-        self.activityView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
-//        if (fabs(position + self.contenTopInset) >= height) {
-//            self.activityView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset - height);
-//        }
+        if (fabs(position + self.contenTopInset) >= height) {
+            self.activityView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset - height);
+        }
     } else {
         // 上拉
         self.alpha = 1;
