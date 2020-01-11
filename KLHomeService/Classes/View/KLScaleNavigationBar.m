@@ -120,8 +120,7 @@
         [self.scrollView.superview insertSubview:self.activityView belowSubview:self.scrollView];
         [self.activityView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.right.mas_equalTo(0);
-            make.bottom.mas_equalTo(self.scrollView.superview.mas_top).offset(frame.size.height * 1.8);
-            make.height.mas_equalTo(UIScreen.mainScreen.bounds.size.height);
+            make.bottom.mas_equalTo(self.scrollView.superview.mas_top).offset(frame.size.height * 1.95);
         }];
         self.activityView.alpha = 0;
     }
@@ -146,30 +145,33 @@
 - (void)scaleBarWithRightSpace:(CGFloat)space refreshHeight:(CGFloat)height {
     CGFloat position = self.scrollView.contentOffset.y;
     height = height > 0 ? height : 40.0;
+    NSLog(@"%f", position);
     
     // 背景图临界值处理
-    if (position < -self.contenTopInset) {
-        // 下拉透明度处理 & 占位图/广告图 位移处理
-        CGFloat alpha = fabs(position + self.contenTopInset) / 30; // 透明度变化范围30pt
+    if (position <= -self.contenTopInset) {
+        // 下拉
+        CGFloat alpha = fabs(position + self.contenTopInset) / height;
         self.alpha = 1 - alpha;
         self.activityView.alpha = alpha;
         self.backgroundView.alpha = 1 - alpha;
-        self.searchBackgroundView.alpha = 1 - alpha;
+        self.searchBackgroundView.alpha = 1 - alpha;;
         self.backgroundView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
-        if (fabs(position + self.contenTopInset) >= height) {
-            self.activityView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset - height);
-        }
+        self.searchBackgroundView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
+        self.bannerBackgroundView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
+        self.activityView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
+//        if (fabs(position + self.contenTopInset) >= height) {
+//            self.activityView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset - height);
+//        }
     } else {
-        // 上拉透明度处理 & 占位图/广告图 位移处理
+        // 上拉
         self.alpha = 1;
         self.activityView.alpha = 0;
         self.backgroundView.alpha = 1;
         self.searchBackgroundView.alpha = 1;
-        self.activityView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
         self.backgroundView.transform = CGAffineTransformIdentity;
+        self.searchBackgroundView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
+        self.bannerBackgroundView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
     }
-    self.searchBackgroundView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
-    self.bannerBackgroundView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
     
     // 导航栏临界值处理
     if (position < -self.contenTopInset) {

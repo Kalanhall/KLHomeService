@@ -46,5 +46,7 @@ Pod::Spec.new do |s|
   s.dependency 'KLNavigationController'
   s.dependency 'Masonry'
   s.dependency 'SDWebImage'
+  s.dependency 'SDWebImageWebPCoder'
+  s.dependency 'MJRefresh'
   
 end

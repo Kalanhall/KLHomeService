@@ -9,8 +9,10 @@
 @import KLConsole;
 @import KLCategory;
 @import KLNavigationController;
+@import MJRefresh;
 #import "KLScaleNavigationBar.h"
 #import "KLHomeBannerCell.h"
+#import "KLHomeMenuCell.h"
 
 @interface KLHomeController () <UITableViewDataSource, UITableViewDelegate>
 
@@ -23,7 +25,7 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    self.view.backgroundColor = KLColor(0xF6F6F6);
+    self.view.backgroundColor = KLColor(0x7C0700);
     self.kl_barHidden = YES;
     self.kl_barStyle = UIBarStyleBlackOpaque;
     
@@ -46,6 +48,7 @@
     }];
     [self.tableView registerClass:UITableViewCell.class forCellReuseIdentifier:UITableViewCell.description];
     [self.tableView registerClass:KLHomeBannerCell.class forCellReuseIdentifier:KLHomeBannerCell.description];
+    [self.tableView registerClass:KLHomeMenuCell.class forCellReuseIdentifier:KLHomeMenuCell.description];
     
     self.navigationBar = [KLScaleNavigationBar.alloc initWithFrame:CGRectZero scrollView:self.tableView];
     
@@ -84,6 +87,20 @@
         vc.view.backgroundColor = UIColor.orangeColor;
         [weakself.navigationController pushViewController:vc animated:YES];
     };
+    
+    self.tableView.mj_header = [MJRefreshGifHeader headerWithRefreshingBlock:^{
+        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+            [weakself.tableView.mj_header endRefreshing];
+        });
+    }];
+    MJRefreshGifHeader *header = (MJRefreshGifHeader *)self.tableView.mj_header;
+    header.mj_h = 64;
+    header.lastUpdatedTimeLabel.hidden = YES;
+    header.stateLabel.textColor = UIColor.whiteColor;
+    header.stateLabel.font = [UIFont systemFontOfSize:11];
+    [header setTitle:@"下拉刷新" forState:MJRefreshStateIdle];
+    [header setTitle:@"更新中" forState:MJRefreshStateRefreshing];
+    [header setTitle:@"继续下拉有惊喜" forState:MJRefreshStatePulling];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -100,7 +117,13 @@
 {
     if (0 == indexPath.section) {
         KLHomeBannerCell *cell = [tableView dequeueReusableCellWithIdentifier:KLHomeBannerCell.description];
-        cell.carousel.images = @[@"https://m.360buyimg.com/mobilecms/s750x460_jfs/t1/97359/10/10096/130154/5e153938E68a9a279/e3adfd47810f4eb2.jpg!cr_1125x445_0_171!q70.jpg", @"https://m.360buyimg.com/mobilecms/s750x460_jfs/t1/109363/40/3106/97064/5e0ed7c7E2522fc1f/dac139cbfed2b472.jpg!cr_1125x445_0_171!q70.jpg", @"https://m.360buyimg.com/mobilecms/s750x460_jfs/t1/109288/29/3614/193141/5e13df88Ea17cf329/0fab704523428f89.jpg!cr_1125x445_0_171!q70.jpg"];
+        cell.carousel.images = @[@"https://m.360buyimg.com/mobilecms/s750x460_jfs/t1/97359/10/10096/130154/5e153938E68a9a279/e3adfd47810f4eb2.jpg!cr_1125x445_0_171!q70.jpg.dpg.webp", @"https://m.360buyimg.com/mobilecms/s750x460_jfs/t1/109363/40/3106/97064/5e0ed7c7E2522fc1f/dac139cbfed2b472.jpg!cr_1125x445_0_171!q70.jpg.dpg.webp", @"https://m.360buyimg.com/mobilecms/s750x460_jfs/t1/109288/29/3614/193141/5e13df88Ea17cf329/0fab704523428f89.jpg!cr_1125x445_0_171!q70.jpg.dpg.webp"];
+        
+        return cell;
+    } else
+    if (1 == indexPath.section) {
+        KLHomeMenuCell *cell = [tableView dequeueReusableCellWithIdentifier:KLHomeMenuCell.description];
+        cell.backgroundImageView.image = [UIImage kl_imageWithImageName:@"jd08" inBundle:[NSBundle bundleForClass:self.class]];
         
         return cell;
     }
@@ -134,7 +157,7 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    [self.navigationBar scaleBarWithRightSpace:80 refreshHeight:44];
+    [self.navigationBar scaleBarWithRightSpace:80 refreshHeight:64];
 }
 
 @end
