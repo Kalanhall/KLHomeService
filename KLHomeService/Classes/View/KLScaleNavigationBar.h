@@ -23,8 +23,10 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) UIImageView *topView;
 /// 搜索栏
 @property (strong, nonatomic, readonly) UITextField *searchBar;
-/// 搜索图标
-@property (strong, nonatomic) UIImage *searchImage;
+/// 搜索框左视图
+@property (strong, nonatomic, readonly) UIImageView *searchBarLeftView;
+/// 搜索框右视图
+@property (strong, nonatomic, readonly) UIImageView *searchBarRightView;
 /// 单个左视图，其约束宽度为屏宽一半
 @property (strong, nonatomic) UIView *leftView;
 /// 右视图

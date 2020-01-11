@@ -24,6 +24,7 @@
     [super viewDidLoad];
     self.view.backgroundColor = KLColor(0xF6F6F6);
     self.kl_barHidden = YES;
+    self.kl_barStyle = UIBarStyleBlackOpaque;
     
     self.tableView = [UITableView.alloc initWithFrame:CGRectZero style:UITableViewStyleGrouped];
     self.tableView.backgroundColor = UIColor.clearColor;
@@ -43,25 +44,33 @@
     [self.tableView registerClass:UITableViewCell.class forCellReuseIdentifier:UITableViewCell.description];
     
     self.navigationBar = [KLScaleNavigationBar.alloc initWithFrame:CGRectZero scrollView:self.tableView];
-    self.navigationBar.backgroundView.image = [UIImage kl_imageWithImageName:@"jd02" inBundle:[NSBundle bundleForClass:self.class]];
-    self.navigationBar.searchbackgroundView.image = [UIImage kl_imageWithImageName:@"jd03" inBundle:[NSBundle bundleForClass:self.class]];
-    [self.view addSubview:self.navigationBar];
     
-    UIButton *item1 = [UIButton buttonWithType:UIButtonTypeCustom];
-    item1.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [item1 setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
-    [item1 setImage:[UIImage kl_imageWithImageName:@"jd06" inBundle:[NSBundle bundleForClass:self.class]] forState:UIControlStateNormal];
-    UIButton *item2 = [UIButton buttonWithType:UIButtonTypeCustom];
-    item2.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [item2 setContentHorizontalAlignment:UIControlContentHorizontalAlignmentRight];
-    [item2 setImage:[UIImage kl_imageWithImageName:@"jd07" inBundle:[NSBundle bundleForClass:self.class]] forState:UIControlStateNormal];
-    self.navigationBar.rightViews = @[item2, item1];
     UIButton *left = [UIButton buttonWithType:UIButtonTypeCustom];
     left.imageView.contentMode = UIViewContentModeScaleAspectFit;
     [left setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
     [left setImage:[UIImage kl_imageWithImageName:@"jd01" inBundle:[NSBundle bundleForClass:self.class]] forState:UIControlStateNormal];
     self.navigationBar.leftView = left;
-
+    
+    UIButton *item1 = [UIButton buttonWithType:UIButtonTypeCustom];
+    item1.titleLabel.font = KLAutoBoldFont(8);
+    [item1 setImage:[UIImage kl_imageWithImageName:@"code" inBundle:[NSBundle bundleForClass:self.class]] forState:UIControlStateNormal];
+    [item1 setTitle:@"扫啊扫" forState:UIControlStateNormal];
+    
+    UIButton *item2 = [UIButton buttonWithType:UIButtonTypeCustom];
+    item2.titleLabel.font = KLAutoBoldFont(8);
+    [item2 setImage:[UIImage kl_imageWithImageName:@"msg" inBundle:[NSBundle bundleForClass:self.class]] forState:UIControlStateNormal];
+    [item2 setTitle:@"消息" forState:UIControlStateNormal];
+    self.navigationBar.rightViews = @[item2, item1];
+    
+    [self.navigationBar.rightView layoutIfNeeded];
+    [item1 kl_layoutWithStyle:KLLayoutStyleImageTop margin:3];
+    [item2 kl_layoutWithStyle:KLLayoutStyleImageTop margin:3];
+    
+    self.navigationBar.backgroundView.image = [UIImage kl_imageWithImageName:@"jd02" inBundle:[NSBundle bundleForClass:self.class]];
+    self.navigationBar.searchbackgroundView.image = [UIImage kl_imageWithImageName:@"jd03" inBundle:[NSBundle bundleForClass:self.class]];
+    self.navigationBar.searchBarLeftView.image = [UIImage kl_imageWithImageName:@"jd06" inBundle:[NSBundle bundleForClass:self.class]];
+    self.navigationBar.searchBarRightView.image = [UIImage kl_imageWithImageName:@"jd07" inBundle:[NSBundle bundleForClass:self.class]];
+    [self.view addSubview:self.navigationBar];
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView

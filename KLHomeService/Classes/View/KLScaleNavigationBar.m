@@ -17,6 +17,7 @@
 @property (strong, nonatomic) UIImageView *topView;
 @property (strong, nonatomic) UITextField *searchBar;
 @property (strong, nonatomic) UIImageView *searchBarLeftView;
+@property (strong, nonatomic) UIImageView *searchBarRightView;
 @property (assign, nonatomic) CGFloat contenTopInset;
 
 @end
@@ -71,25 +72,35 @@
         self.searchBar.layer.masksToBounds = YES;
         self.searchBar.font = [UIFont boldSystemFontOfSize:13];
         self.searchBar.text = @"搜索";
-        self.searchBar.textColor = [UIColor colorWithRed:119/255.0 green:119/255.0 blue:119/255.0 alpha:1];
+        self.searchBar.textColor = [UIColor colorWithRed:0.608 green:0.608 blue:0.608 alpha:1];
         self.searchBar.delegate = self;
         [self addSubview:self.searchBar];
         [self.searchBar mas_makeConstraints:^(MASConstraintMaker *make) {
             make.left.mas_equalTo(10);
             make.right.mas_equalTo(-10);
-            make.top.mas_equalTo(self.searchbackgroundView.mas_top).offset(1);
+            make.height.mas_equalTo(30);
             make.bottom.mas_equalTo(-10);
         }];
         
         UIView *lcontent = UIView.alloc.init;
         lcontent.frame = CGRectMake(0, 0, 40, 30);
-        UIImageView *search = UIImageView.alloc.init;
-        search.contentMode = UIViewContentModeCenter;
-        search.frame = lcontent.frame;
-        [lcontent addSubview:search];
-        self.searchBarLeftView = search;
+        UIImageView *lsearch = UIImageView.alloc.init;
+        lsearch.contentMode = UIViewContentModeCenter;
+        lsearch.frame = lcontent.frame;
+        [lcontent addSubview:lsearch];
+        self.searchBarLeftView = lsearch;
         self.searchBar.leftView = lcontent;
         self.searchBar.leftViewMode = UITextFieldViewModeAlways;
+        
+        UIView *rcontent = UIView.alloc.init;
+        rcontent.frame = CGRectMake(0, 0, 45, 30);
+        UIImageView *rsearch = UIImageView.alloc.init;
+        rsearch.contentMode = UIViewContentModeCenter;
+        rsearch.frame = lcontent.frame;
+        [rcontent addSubview:rsearch];
+        self.searchBarRightView = rsearch;
+        self.searchBar.rightView = rcontent;
+        self.searchBar.rightViewMode = UITextFieldViewModeAlways;
         
         self.botView = UIImageView.alloc.init;
         self.botView.clipsToBounds = YES;
@@ -160,7 +171,8 @@
         update = target;
     }
     [self.searchBar mas_updateConstraints:^(MASConstraintMaker *make) {
-        make.right.mas_equalTo(-10 - update);
+        make.right.mas_equalTo(-10 - update); // 右边距离从 10 -> target 变化
+        make.bottom.mas_equalTo(-10 + move / real * 3); // 底部距离从 10 -> 7变化
     }];
     
     // 左视图透明度处理
@@ -173,7 +185,7 @@
 
 - (void)setLeftView:(UIView *)leftView {
     _leftView = leftView;
-    [self addSubview:leftView];
+    [self insertSubview:leftView belowSubview:self.searchBar];
     [leftView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.left.mas_equalTo(10);
         make.top.mas_equalTo(UIApplication.sharedApplication.statusBarFrame.size.height);
@@ -188,7 +200,7 @@
     [rightView mas_makeConstraints:^(MASConstraintMaker *make) {
         make.right.mas_equalTo(-10);
         make.top.mas_equalTo(UIApplication.sharedApplication.statusBarFrame.size.height);
-        make.width.mas_equalTo(40);
+        make.width.mas_equalTo(35);
         make.height.mas_equalTo(44.0);
     }];
 }
@@ -197,12 +209,12 @@
     _leftViews = leftViews;
     [leftViews enumerateObjectsUsingBlock:^(UIView * _Nonnull obj, NSUInteger idx, BOOL * _Nonnull stop) {
         obj.tag = idx;
-        [self addSubview:obj];
+        [self insertSubview:obj belowSubview:self.searchBar];
         if (idx == 0) {
             [obj mas_makeConstraints:^(MASConstraintMaker *make) {
                 make.left.mas_equalTo(-10);
                 make.top.mas_equalTo(UIApplication.sharedApplication.statusBarFrame.size.height);
-                make.width.mas_equalTo(40);
+                make.width.mas_equalTo(35);
                 make.height.mas_equalTo(44.0);
             }];
         } else {
@@ -222,9 +234,9 @@
         [self addSubview:obj];
         if (idx == 0) {
             [obj mas_makeConstraints:^(MASConstraintMaker *make) {
-                make.right.mas_equalTo(-10);
+                make.right.mas_equalTo(-5);
                 make.top.mas_equalTo(UIApplication.sharedApplication.statusBarFrame.size.height);
-                make.width.mas_equalTo(40);
+                make.width.mas_equalTo(35);
                 make.height.mas_equalTo(44.0);
             }];
         } else {
@@ -235,11 +247,6 @@
             }];
         }
     }];
-}
-
-- (void)setSearchImage:(UIImage *)searchImage {
-    _searchImage = searchImage;
-    self.searchBarLeftView.image = searchImage;
 }
 
 @end
