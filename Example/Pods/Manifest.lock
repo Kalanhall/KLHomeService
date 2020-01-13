@@ -15,15 +15,23 @@ PODS:
   - AFNetworking/UIKit (3.2.1):
     - AFNetworking/NSURLSession
   - KLCache (1.0.1)
+  - KLCarousel (1.0.4)
   - KLCategory (1.0.9)
+  - KLConsole (1.0.4):
+    - Masonry
+    - YKWoodpecker
   - KLHomeService (0.0.1):
+    - KLCarousel
     - KLCategory
+    - KLConsole
     - KLLeaks
     - KLNavigationController
     - KLNetworkModule
-    - KLScaleNavigationBar
     - KLUserInfoManager
     - Masonry
+    - MJRefresh
+    - SDWebImage
+    - SDWebImageWebPCoder
   - KLHomeServiceInterface (0.0.1):
     - KLServer
   - KLLeaks (1.0.0)
@@ -31,13 +39,28 @@ PODS:
   - KLNavigationController (1.0.0)
   - KLNetworkModule (2.0.1):
     - AFNetworking
-  - KLScaleNavigationBar (1.0.3):
-    - Masonry
   - KLServer (1.0.0)
   - KLUserInfoManager (1.0.1):
     - KLCache (~> 1.0.0)
     - KLModel (~> 1.0.0)
+  - libwebp (1.1.0):
+    - libwebp/demux (= 1.1.0)
+    - libwebp/mux (= 1.1.0)
+    - libwebp/webp (= 1.1.0)
+  - libwebp/demux (1.1.0):
+    - libwebp/webp
+  - libwebp/mux (1.1.0):
+    - libwebp/demux
+  - libwebp/webp (1.1.0)
   - Masonry (1.1.0)
+  - MJRefresh (3.3.1)
+  - SDWebImage (5.4.2):
+    - SDWebImage/Core (= 5.4.2)
+  - SDWebImage/Core (5.4.2)
+  - SDWebImageWebPCoder (0.3.1):
+    - libwebp (~> 1.0)
+    - SDWebImage/Core (~> 5.0)
+  - YKWoodpecker (1.1.1)
 
 DEPENDENCIES:
   - KLHomeService (from `../`)
@@ -46,9 +69,10 @@ DEPENDENCIES:
 SPEC REPOS:
   https://github.com/Kalanhall/Specs.git:
     - KLCache
+    - KLCarousel
     - KLCategory
+    - KLConsole
     - KLModel
-    - KLScaleNavigationBar
     - KLUserInfoManager
   trunk:
     - AFNetworking
@@ -56,7 +80,12 @@ SPEC REPOS:
     - KLNavigationController
     - KLNetworkModule
     - KLServer
+    - libwebp
     - Masonry
+    - MJRefresh
+    - SDWebImage
+    - SDWebImageWebPCoder
+    - YKWoodpecker
 
 EXTERNAL SOURCES:
   KLHomeService:
@@ -67,17 +96,23 @@ EXTERNAL SOURCES:
 SPEC CHECKSUMS:
   AFNetworking: b6f891fdfaed196b46c7a83cf209e09697b94057
   KLCache: 1bf0c622da8f7e4e3acf2569e1d02e60b11ff6e6
+  KLCarousel: ff85addd353c871337132f1007004c42813ef68f
   KLCategory: c5cce470a3099ce77cc4a801bec4ff7a65509b2a
-  KLHomeService: 230f76b53a4e2bd5bb8876792bac41174785610c
+  KLConsole: f4202be2ac6ad807728823614730e99237b2f85d
+  KLHomeService: ae1539f097d56217bc38e61392a8afccd9e54141
   KLHomeServiceInterface: 49ef569ef3ed43847883c23adc5603e2bc27212e
   KLLeaks: 2c098234d67353bc2286d4eec6feeff14163136c
   KLModel: 68eb4580c629621bec437e2a318101295a2f0965
   KLNavigationController: ed8a50a14e54a499d3a483c681bb7f394002a6bf
   KLNetworkModule: b9baa618cf4d1752145d74ef5c08d002f4cf6873
-  KLScaleNavigationBar: f2640b6eca02740af7cbd3d3b4d5ddaa4d31caad
   KLServer: b37b4d567aa189afe1284ed316b4419f2029221e
   KLUserInfoManager: 1602e368ddc874308cfc1e8fe9638979ab17e713
+  libwebp: 946cb3063cea9236285f7e9a8505d806d30e07f3
   Masonry: 678fab65091a9290e40e2832a55e7ab731aad201
+  MJRefresh: eeda70fbf0ad277f3178cef1cd0c3532591d6237
+  SDWebImage: 4ca2dc4eefae4224bea8f504251cda485a363745
+  SDWebImageWebPCoder: ce58a29621c2806dd5c36695ed192cf67163ff9d
+  YKWoodpecker: 446884788ccf1f1800781d50e503f9bdb0bdaebe
 
 PODFILE CHECKSUM: 4e03a8f3d7390ee2911f72d29d6de7468d2936f9
 

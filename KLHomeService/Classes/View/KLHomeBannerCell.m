@@ -67,7 +67,7 @@
     [super layoutSubviews];
     self.carousel.frame = self.frame;
     self.layout.itemSize = CGSizeMake(self.frame.size.width - 20, self.frame.size.height);
-    self.carousel.control.frame = CGRectMake(0, CGRectGetHeight(self.frame) - KLAuto(20), CGRectGetWidth(self.frame), KLAuto(10));
+    self.carousel.control.frame = CGRectMake(0, CGRectGetHeight(self.frame) - KLAuto(15), CGRectGetWidth(self.frame), KLAuto(10));
 }
 
 @end

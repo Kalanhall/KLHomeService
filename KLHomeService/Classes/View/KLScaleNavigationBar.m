@@ -145,21 +145,21 @@
 - (void)scaleBarWithRightSpace:(CGFloat)space refreshHeight:(CGFloat)height {
     CGFloat position = self.scrollView.contentOffset.y;
     height = height > 0 ? height : 40.0;
-    NSLog(@"%f", position);
+//    NSLog(@"%f", position);
     
     // 背景图临界值处理
     if (position <= -self.contenTopInset) {
         // 下拉
-        CGFloat alpha = fabs(position + self.contenTopInset) / height;
+        CGFloat alpha = fabs(position + self.contenTopInset) / (height * 0.5);
         self.alpha = 1 - alpha;
         self.activityView.alpha = alpha;
         self.backgroundView.alpha = 1 - alpha;
-        self.searchBackgroundView.alpha = 1 - alpha;;
+        self.searchBackgroundView.alpha = 1 - alpha;
         self.backgroundView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
-        self.searchBackgroundView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
-        self.bannerBackgroundView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
         if (fabs(position + self.contenTopInset) >= height) {
             self.activityView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset - height);
+        } else {
+            self.activityView.transform = CGAffineTransformIdentity;
         }
     } else {
         // 上拉
@@ -168,9 +168,10 @@
         self.backgroundView.alpha = 1;
         self.searchBackgroundView.alpha = 1;
         self.backgroundView.transform = CGAffineTransformIdentity;
-        self.searchBackgroundView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
-        self.bannerBackgroundView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
+        self.activityView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
     }
+    self.searchBackgroundView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
+    self.bannerBackgroundView.transform = CGAffineTransformMakeTranslation(0, - position - self.contenTopInset);
     
     // 导航栏临界值处理
     if (position < -self.contenTopInset) {

@@ -13,11 +13,13 @@
 #import "KLScaleNavigationBar.h"
 #import "KLHomeBannerCell.h"
 #import "KLHomeMenuCell.h"
+#import "KLRefreshControl.h"
 
 @interface KLHomeController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) KLScaleNavigationBar *navigationBar;
+@property (strong, nonatomic) KLRefreshControl *refresh;
 
 @end
 
@@ -52,11 +54,10 @@
     
     self.navigationBar = [KLScaleNavigationBar.alloc initWithFrame:CGRectZero scrollView:self.tableView];
     
-    UIButton *left = [UIButton buttonWithType:UIButtonTypeCustom];
-    left.imageView.contentMode = UIViewContentModeScaleAspectFit;
-    [left setContentHorizontalAlignment:UIControlContentHorizontalAlignmentLeft];
-    [left setImage:[UIImage kl_imageWithImageName:@"jd01" inBundle:[NSBundle bundleForClass:self.class]] forState:UIControlStateNormal];
+    UIImageView *left = UIImageView.alloc.init;
+    left.contentMode = UIViewContentModeLeft;
     self.navigationBar.leftView = left;
+    [left setImage:[UIImage kl_imageWithImageName:@"jd01" inBundle:[NSBundle bundleForClass:self.class]]];
     
     UIButton *item1 = [UIButton buttonWithType:UIButtonTypeCustom];
     item1.titleLabel.font = KLAutoBoldFont(8);
@@ -88,19 +89,30 @@
         [weakself.navigationController pushViewController:vc animated:YES];
     };
     
-    self.tableView.mj_header = [MJRefreshGifHeader headerWithRefreshingBlock:^{
-        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-            [weakself.tableView.mj_header endRefreshing];
-        });
-    }];
-    MJRefreshGifHeader *header = (MJRefreshGifHeader *)self.tableView.mj_header;
-    header.mj_h = 64;
-    header.lastUpdatedTimeLabel.hidden = YES;
-    header.stateLabel.textColor = UIColor.whiteColor;
-    header.stateLabel.font = [UIFont systemFontOfSize:11];
-    [header setTitle:@"下拉刷新" forState:MJRefreshStateIdle];
-    [header setTitle:@"更新中" forState:MJRefreshStateRefreshing];
-    [header setTitle:@"继续下拉有惊喜" forState:MJRefreshStatePulling];
+//    self.tableView.mj_header = [MJRefreshGifHeader headerWithRefreshingBlock:^{
+//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+//            [weakself.tableView.mj_header endRefreshing];
+//        });
+//    }];
+//    MJRefreshGifHeader *header = (MJRefreshGifHeader *)self.tableView.mj_header;
+//    header.mj_h = 64;
+//    header.lastUpdatedTimeLabel.hidden = YES;
+//    header.stateLabel.textColor = UIColor.whiteColor;
+//    header.stateLabel.font = [UIFont systemFontOfSize:11];
+//    [header setTitle:@"下拉刷新" forState:MJRefreshStateIdle];
+//    [header setTitle:@"更新中" forState:MJRefreshStateRefreshing];
+//    [header setTitle:@"继续下拉有惊喜" forState:MJRefreshStatePulling];
+    
+    self.refresh = [KLRefreshControl.alloc initWithTargrt:self refreshAction:@selector(refreshcallback)];
+    [self.tableView addSubview:self.refresh];
+}
+
+- (void)refreshcallback
+{
+    [self.refresh beginRefreshing];
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        [self.refresh endRefreshing];
+    });
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -157,7 +169,12 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    [self.navigationBar scaleBarWithRightSpace:80 refreshHeight:64];
+    [self.navigationBar scaleBarWithRightSpace:80 refreshHeight:self.refresh.kl_height];
 }
+
+//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+//{
+//    [self.navigationBar scaleBarWithRightSpace:80 refreshHeight:64];
+//}
 
 @end

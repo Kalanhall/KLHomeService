@@ -24,12 +24,14 @@
       "KLHomeService/Assets/*"
     ]
   },
-  "public_header_files": "KLHomeService/Classes/*.{h}",
   "dependencies": {
-    "Masonry": [
+    "KLLeaks": [
 
     ],
-    "KLLeaks": [
+    "KLConsole": [
+
+    ],
+    "KLCarousel": [
 
     ],
     "KLCategory": [
@@ -44,7 +46,16 @@
     "KLNavigationController": [
 
     ],
-    "KLScaleNavigationBar": [
+    "Masonry": [
+
+    ],
+    "SDWebImage": [
+
+    ],
+    "SDWebImageWebPCoder": [
+
+    ],
+    "MJRefresh": [
 
     ]
   }
