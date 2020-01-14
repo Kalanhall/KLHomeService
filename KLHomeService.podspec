@@ -42,6 +42,7 @@ Pod::Spec.new do |s|
   s.dependency 'KLCategory'
   s.dependency 'KLNetworkModule'
   s.dependency 'KLUserInfoManager'
+  s.dependency 'KLScaleNavigationBar'
   s.dependency 'KLNavigationController'
   s.dependency 'Masonry'
   s.dependency 'SDWebImage'

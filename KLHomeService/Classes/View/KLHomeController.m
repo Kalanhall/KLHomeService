@@ -10,7 +10,7 @@
 @import KLCategory;
 @import KLNavigationController;
 @import MJRefresh;
-#import "KLScaleNavigationBar.h"
+@import KLScaleNavigationBar;
 #import "KLHomeBannerCell.h"
 #import "KLHomeMenuCell.h"
 #import "KLRefreshControl.h"
@@ -53,7 +53,7 @@
     
     
     self.navigationBar = [KLScaleNavigationBar.alloc initWithFrame:CGRectZero scrollView:self.tableView];
-    self.navigationBar.bannerHeight = KLAuto(140);
+    self.navigationBar.bannerHeight = KLAuto(150);
     self.navigationBar.activityBottomFixHeight = 90;
     // 导航栏上部背景（搜索栏以上）
     self.navigationBar.backgroundView.image = [UIImage kl_imageWithImageName:@"jd02" inBundle:[NSBundle bundleForClass:self.class]];
@@ -73,17 +73,17 @@
     [left setImage:[UIImage kl_imageWithImageName:@"jd01" inBundle:[NSBundle bundleForClass:self.class]]];
     
     UIButton *item1 = [UIButton buttonWithType:UIButtonTypeCustom];
-    item1.titleLabel.font = KLAutoBoldFont(8);
+    item1.titleLabel.font = KLAutoBoldFont(9);
     [item1 setImage:[UIImage kl_imageWithImageName:@"code" inBundle:[NSBundle bundleForClass:self.class]] forState:UIControlStateNormal];
     [item1 setTitle:@"扫啊扫" forState:UIControlStateNormal];
     
     UIButton *item2 = [UIButton buttonWithType:UIButtonTypeCustom];
-    item2.titleLabel.font = KLAutoBoldFont(8);
+    item2.titleLabel.font = KLAutoBoldFont(9);
     [item2 setImage:[UIImage kl_imageWithImageName:@"msg" inBundle:[NSBundle bundleForClass:self.class]] forState:UIControlStateNormal];
     [item2 setTitle:@"消息" forState:UIControlStateNormal];
     self.navigationBar.rightViews = @[item2, item1];
     
-    [self.navigationBar.rightView layoutIfNeeded];
+    [self.navigationBar layoutIfNeeded];
     [item1 kl_layoutWithStyle:KLLayoutStyleImageTop margin:3];
     [item2 kl_layoutWithStyle:KLLayoutStyleImageTop margin:3];
     [self.view addSubview:self.navigationBar];

@@ -23,7 +23,7 @@
         [self.contentView addSubview:self.backgroundImageView];
         [self.backgroundImageView mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(0);
-            make.height.mas_equalTo(KLAuto(144));
+            make.height.mas_equalTo(KLAuto(144)).priorityHigh();
         }];
     }
     return self;
