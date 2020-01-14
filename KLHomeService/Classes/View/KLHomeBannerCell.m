@@ -45,7 +45,6 @@
         [self.contentView addSubview:self.carousel];
         [self.carousel mas_makeConstraints:^(MASConstraintMaker *make) {
             make.edges.mas_equalTo(UIEdgeInsetsMake(0, 0, 0, 0));
-            make.height.mas_equalTo(KLAuto(140));
         }];
         self.layout = layout;
         

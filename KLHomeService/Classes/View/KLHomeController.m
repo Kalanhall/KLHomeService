@@ -6,7 +6,7 @@
 //
 
 #import "KLHomeController.h"
-@import KLConsole;
+@import Masonry;
 @import KLCategory;
 @import KLNavigationController;
 @import MJRefresh;
@@ -35,7 +35,6 @@
     self.tableView.backgroundColor = UIColor.clearColor;
     self.tableView.delegate = self;
     self.tableView.dataSource = self;
-    self.tableView.rowHeight = UITableViewAutomaticDimension;
     self.tableView.estimatedRowHeight = 100;
     self.tableView.showsVerticalScrollIndicator = NO;
     self.tableView.separatorStyle = UITableViewCellSeparatorStyleNone;
@@ -52,7 +51,21 @@
     [self.tableView registerClass:KLHomeBannerCell.class forCellReuseIdentifier:KLHomeBannerCell.description];
     [self.tableView registerClass:KLHomeMenuCell.class forCellReuseIdentifier:KLHomeMenuCell.description];
     
+    
     self.navigationBar = [KLScaleNavigationBar.alloc initWithFrame:CGRectZero scrollView:self.tableView];
+    self.navigationBar.bannerHeight = KLAuto(140);
+    self.navigationBar.activityBottomFixHeight = 90;
+    // 导航栏上部背景（搜索栏以上）
+    self.navigationBar.backgroundView.image = [UIImage kl_imageWithImageName:@"jd02" inBundle:[NSBundle bundleForClass:self.class]];
+    // 导航栏下部背景（搜索栏）
+    self.navigationBar.searchBackgroundView.image = [UIImage kl_imageWithImageName:@"jd03" inBundle:[NSBundle bundleForClass:self.class]];
+    // 搜索栏左右图标
+    self.navigationBar.searchBarLeftView.image = [UIImage kl_imageWithImageName:@"jd06" inBundle:[NSBundle bundleForClass:self.class]];
+    self.navigationBar.searchBarRightView.image = [UIImage kl_imageWithImageName:@"jd07" inBundle:[NSBundle bundleForClass:self.class]];
+    // 轮播图底部背景
+    self.navigationBar.bannerBackgroundView.image = [UIImage kl_imageWithImageName:@"jd04" inBundle:[NSBundle bundleForClass:self.class]];
+    // 活动图
+    self.navigationBar.activityView.image = [UIImage kl_imageWithImageName:@"jd05" inBundle:[NSBundle bundleForClass:self.class]];
     
     UIImageView *left = UIImageView.alloc.init;
     left.contentMode = UIViewContentModeLeft;
@@ -75,33 +88,12 @@
     [item2 kl_layoutWithStyle:KLLayoutStyleImageTop margin:3];
     [self.view addSubview:self.navigationBar];
     
-    self.navigationBar.backgroundView.image = [UIImage kl_imageWithImageName:@"jd02" inBundle:[NSBundle bundleForClass:self.class]];
-    self.navigationBar.searchBackgroundView.image = [UIImage kl_imageWithImageName:@"jd03" inBundle:[NSBundle bundleForClass:self.class]];
-    self.navigationBar.bannerBackgroundView.image = [UIImage kl_imageWithImageName:@"jd04" inBundle:[NSBundle bundleForClass:self.class]];
-    self.navigationBar.activityView.image = [UIImage kl_imageWithImageName:@"jd05" inBundle:[NSBundle bundleForClass:self.class]];
-    self.navigationBar.searchBarLeftView.image = [UIImage kl_imageWithImageName:@"jd06" inBundle:[NSBundle bundleForClass:self.class]];
-    self.navigationBar.searchBarRightView.image = [UIImage kl_imageWithImageName:@"jd07" inBundle:[NSBundle bundleForClass:self.class]];
-    
     __weak typeof(self) weakself = self;
     self.navigationBar.searchBarDidBeginEditing = ^{
         UIViewController *vc = UIViewController.new;
         vc.view.backgroundColor = UIColor.orangeColor;
         [weakself.navigationController pushViewController:vc animated:YES];
     };
-    
-//    self.tableView.mj_header = [MJRefreshGifHeader headerWithRefreshingBlock:^{
-//        dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-//            [weakself.tableView.mj_header endRefreshing];
-//        });
-//    }];
-//    MJRefreshGifHeader *header = (MJRefreshGifHeader *)self.tableView.mj_header;
-//    header.mj_h = 64;
-//    header.lastUpdatedTimeLabel.hidden = YES;
-//    header.stateLabel.textColor = UIColor.whiteColor;
-//    header.stateLabel.font = [UIFont systemFontOfSize:11];
-//    [header setTitle:@"下拉刷新" forState:MJRefreshStateIdle];
-//    [header setTitle:@"更新中" forState:MJRefreshStateRefreshing];
-//    [header setTitle:@"继续下拉有惊喜" forState:MJRefreshStatePulling];
     
     self.refresh = [KLRefreshControl.alloc initWithTargrt:self refreshAction:@selector(refreshcallback)];
     [self.tableView addSubview:self.refresh];
@@ -147,6 +139,14 @@
     return cell;
 }
 
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+{
+    if (0 == indexPath.section) {
+        return self.navigationBar.bannerHeight;
+    }
+    return UITableViewAutomaticDimension;
+}
+
 - (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
 {
     return UIView.new;
@@ -172,9 +172,14 @@
     [self.navigationBar scaleBarWithRightSpace:80 refreshHeight:self.refresh.kl_height];
 }
 
-//- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
-//{
-//    [self.navigationBar scaleBarWithRightSpace:80 refreshHeight:64];
-//}
+- (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
+{
+    // 京东的骚操作，刷新控件回弹距离，延时才能成功设置滚动距离
+    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
+        if (self.refresh.isRefreshing) {
+            [self.tableView setContentOffset:(CGPoint){0, -self.tableView.contentInset.top + 20} animated:YES];
+        }
+    });
+}
 
 @end

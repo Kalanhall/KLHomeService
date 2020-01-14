@@ -6,24 +6,25 @@
 //
 
 #import "KLRefreshControl.h"
+@import KLCategory;
 
-#define k_FMRefresh_Height 60   //控件的高度
-#define k_FMRefresh_Width [UIScreen mainScreen].bounds.size.width //控件的宽度
-typedef NS_ENUM(NSInteger, FMRefreshState) {
-    FMRefreshStateNormal = 0,     /** 普通状态 */
-    FMRefreshStatePulling,        /** 释放刷新状态 */
-    FMRefreshStateRefreshing,     /** 正在刷新 */
+#define KLRefreshHeight 60        // 控件触发刷新的高度
+
+typedef NS_ENUM(NSInteger, KLRefreshState) {
+    KLRefreshStateNormal = 0,     /** 普通状态 */
+    KLRefreshStatePulling,        /** 释放刷新状态 */
+    KLRefreshStateRefreshing,     /** 正在刷新 */
 };
 
 @interface KLRefreshControl ()
 
-@property (nonatomic, strong) UIView  *backgroundView;
+@property (strong, nonatomic) UIView  *backgroundView;
 @property (assign, nonatomic) id refreshTarget;
-@property (nonatomic, assign) SEL refreshAction;
-@property (nonatomic, strong) UILabel *label;
-@property (nonatomic, assign) FMRefreshState currentStatus;
-@property (nonatomic, strong) UIScrollView *superScrollView;
-@property (nonatomic, assign) CGFloat originY;
+@property (assign, nonatomic) SEL refreshAction;
+@property (strong, nonatomic) UILabel *label;
+@property (assign, nonatomic) KLRefreshState currentStatus;
+@property (strong, nonatomic) UIScrollView *scrollView;
+@property (assign, nonatomic) CGFloat originY;
 
 @end
 
@@ -31,7 +32,7 @@ typedef NS_ENUM(NSInteger, FMRefreshState) {
 
 - (instancetype)initWithTargrt:(id)target refreshAction:(SEL)refreshAction
 {
-    self = [super initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, k_FMRefresh_Height)];
+    self = [super initWithFrame:CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, KLRefreshHeight)];
     if (self) {
         self.refreshTarget = target;
         self.refreshAction = refreshAction;
@@ -44,7 +45,7 @@ typedef NS_ENUM(NSInteger, FMRefreshState) {
         self.label.textColor = UIColor.whiteColor;
         self.label.font = [UIFont systemFontOfSize:11];
         self.label.textAlignment = NSTextAlignmentCenter;
-        self.label.text = NSLocalizedString(FM_Refresh_normal_title, nil);
+        self.label.text = NSLocalizedString(KLRefreshNormalTitle, nil);
         [self.backgroundView addSubview:self.label];
         self.label.frame = CGRectMake(0, self.frame.size.height - 20, UIScreen.mainScreen.bounds.size.width, 20);
     }
@@ -53,18 +54,17 @@ typedef NS_ENUM(NSInteger, FMRefreshState) {
 
 - (void)dealloc
 {
-    [self.superScrollView removeObserver:self forKeyPath:@"contentOffset"];
+    [self.scrollView removeObserver:self forKeyPath:@"contentOffset"];
 }
-
 
 #pragma mark - KVO
 - (void)didMoveToSuperview
 {
     [super didMoveToSuperview];
     if ([self.superview isKindOfClass:[UIScrollView class]]) {
-        self.superScrollView = (UIScrollView *)self.superview;
-        self.originY = -self.superScrollView.contentInset.top;
-        [self.superScrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
+        self.scrollView = (UIScrollView *)self.superview;
+        self.originY = -self.scrollView.contentInset.top;
+        [self.scrollView addObserver:self forKeyPath:@"contentOffset" options:NSKeyValueObservingOptionNew context:nil];
     }
     
     // 移除系统菊花
@@ -72,33 +72,32 @@ typedef NS_ENUM(NSInteger, FMRefreshState) {
 }
 
 - (void)observeValueForKeyPath:(NSString *)keyPath ofObject:(id)object change:(NSDictionary<NSString *,id> *)change context:(void *)context {
-     if (self.superScrollView.isDragging && !self.isRefreshing) {
-         CGFloat offsetY =  -self.superScrollView.contentInset.top - k_FMRefresh_Height;
-        if (self.currentStatus == FMRefreshStatePulling && self.superScrollView.contentOffset.y > offsetY) {
-            self.currentStatus = FMRefreshStateNormal;
-            self.label.text = FM_Refresh_normal_title;
-        } else if (self.currentStatus == FMRefreshStateNormal && self.superScrollView.contentOffset.y < offsetY) {
-            self.currentStatus = FMRefreshStatePulling;
-            self.label.text = FM_Refresh_pulling_title;
+     if (self.scrollView.isDragging && !self.isRefreshing) {
+        CGFloat offsetY =  -self.scrollView.contentInset.top - KLRefreshHeight;
+        if (self.currentStatus == KLRefreshStatePulling && self.scrollView.contentOffset.y > offsetY) {
+            self.currentStatus = KLRefreshStateNormal;
+            self.label.text = KLRefreshNormalTitle;
+        } else if (self.currentStatus == KLRefreshStateNormal && self.scrollView.contentOffset.y < offsetY) {
+            self.currentStatus = KLRefreshStatePulling;
+            self.label.text = KLRefreshPullingTitle;
         }
-    } else if(!self.superScrollView.isDragging) {
-        if (self.currentStatus == FMRefreshStatePulling) {
-            self.currentStatus = FMRefreshStateRefreshing;
-            self.label.text = FM_Refresh_Refreshing_title;
+    } else if(!self.scrollView.isDragging) {
+        if (self.currentStatus == KLRefreshStatePulling) {
+            self.currentStatus = KLRefreshStateRefreshing;
+            self.label.text = KLRefreshRefreshingTitle;
             [self beginRefreshing];
-            [self doRefreshAction];
-            [self.superScrollView setContentOffset:(CGPoint){0, self.originY - 40} animated:YES];
+            [self performRefreshSelector];
         }
     }
     
     CGFloat pullDistance = -self.frame.origin.y;
-    self.backgroundView.frame = CGRectMake(0, 0, k_FMRefresh_Width, pullDistance);
+    self.backgroundView.frame = CGRectMake(0, 0, UIScreen.mainScreen.bounds.size.width, pullDistance);
     self.label.frame = CGRectMake(0, -self.frame.size.height * 1.1/3.0 + pullDistance, self.label.frame.size.width, self.label.frame.size.height);
 }
 
 #pragma mark - action
 
-- (void)doRefreshAction
+- (void)performRefreshSelector
 {
 #pragma clang diagnostic push
 #pragma clang diagnostic ignored "-Warc-performSelector-leaks"
@@ -115,10 +114,10 @@ typedef NS_ENUM(NSInteger, FMRefreshState) {
 
 - (void)endRefreshing
 {
-    self.currentStatus = FMRefreshStateNormal;
-    self.label.text = FM_Refresh_Refreshing_title;
+    self.currentStatus = KLRefreshStateNormal;
+    self.label.text = KLRefreshNormalTitle;
     [super endRefreshing];
-    [self.superScrollView setContentOffset:CGPointMake(0, self.originY) animated:YES];
+    [self.scrollView setContentOffset:CGPointMake(0, self.originY) animated:YES];
 }
 
 @end

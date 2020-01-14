@@ -21,6 +21,8 @@ NS_ASSUME_NONNULL_BEGIN
 @property (strong, nonatomic, readonly) UIImageView *bannerBackgroundView;
 /// 根据实际轮播图高度设置，默认auto(140)
 @property (assign, nonatomic) CGFloat bannerHeight;
+/// 活动广告图，固定距离导航栏底部距离，默认90
+@property (assign, nonatomic) CGFloat activityBottomFixHeight;
 /// 导航栏背景图底部活动预告图，层级位于scrollView的superView上
 @property (strong, nonatomic, readonly) UIImageView *activityView;
 /// 搜索栏

@@ -8,6 +8,8 @@
 @import Masonry;
 #import "KLScaleNavigationBar.h"
 
+#define ScaleSize(temp)  (MIN(UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) / 375.0 * temp)
+
 @interface KLScaleNavigationBar () <UITextFieldDelegate>
 
 @property (strong, nonatomic) UIScrollView *scrollView;
@@ -66,7 +68,7 @@
             make.height.mas_equalTo(41);
         }];
         
-        _bannerHeight = MIN(UIScreen.mainScreen.bounds.size.width, UIScreen.mainScreen.bounds.size.height) / 375.0 * 140;
+        _bannerHeight = ScaleSize(140);
         self.bannerBackgroundView = UIImageView.alloc.init;
         self.bannerBackgroundView.contentMode = UIViewContentModeScaleAspectFill;
         self.bannerBackgroundView.clipsToBounds = YES;
@@ -116,15 +118,21 @@
         
         self.activityView = UIImageView.alloc.init;
         self.activityView.clipsToBounds = YES;
-        self.activityView.contentMode = UIViewContentModeScaleAspectFill;
+        self.activityView.contentMode = UIViewContentModeScaleToFill;
         [self.scrollView.superview insertSubview:self.activityView belowSubview:self.scrollView];
-        [self.activityView mas_makeConstraints:^(MASConstraintMaker *make) {
-            make.left.right.mas_equalTo(0);
-            make.bottom.mas_equalTo(self.scrollView.superview.mas_top).offset(frame.size.height * 1.95);
-        }];
         self.activityView.alpha = 0;
+        self.activityBottomFixHeight = 90;
     }
     return self;
+}
+
+- (void)didMoveToSuperview
+{
+    [super didMoveToSuperview];
+    [self.activityView mas_remakeConstraints:^(MASConstraintMaker *make) {
+        make.left.right.mas_equalTo(0);
+        make.bottom.mas_equalTo(self.mas_bottom).offset(self.activityBottomFixHeight);
+    }];
 }
 
 - (void)setBannerHeight:(CGFloat)bannerHeight
@@ -145,7 +153,6 @@
 - (void)scaleBarWithRightSpace:(CGFloat)space refreshHeight:(CGFloat)height {
     CGFloat position = self.scrollView.contentOffset.y;
     height = height > 0 ? height : 40.0;
-//    NSLog(@"%f", position);
     
     // 背景图临界值处理
     if (position <= -self.contenTopInset) {

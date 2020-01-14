@@ -38,7 +38,6 @@ Pod::Spec.new do |s|
 
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'KLLeaks'
-  s.dependency 'KLConsole'
   s.dependency 'KLCarousel'
   s.dependency 'KLCategory'
   s.dependency 'KLNetworkModule'
