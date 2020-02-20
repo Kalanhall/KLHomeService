@@ -13,13 +13,11 @@
 @import KLScaleNavigationBar;
 #import "KLHomeBannerCell.h"
 #import "KLHomeMenuCell.h"
-#import "KLRefreshControl.h"
 
 @interface KLHomeController () <UITableViewDataSource, UITableViewDelegate>
 
 @property (strong, nonatomic) UITableView *tableView;
 @property (strong, nonatomic) KLScaleNavigationBar *navigationBar;
-@property (strong, nonatomic) KLRefreshControl *refresh;
 
 @end
 
@@ -94,17 +92,12 @@
         vc.view.backgroundColor = UIColor.orangeColor;
         [weakself.navigationController pushViewController:vc animated:YES];
     };
-    
-    self.refresh = [KLRefreshControl.alloc initWithTargrt:self refreshAction:@selector(refreshcallback)];
-    [self.tableView addSubview:self.refresh];
+
 }
 
 - (void)refreshcallback
 {
-    [self.refresh beginRefreshing];
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(2 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        [self.refresh endRefreshing];
-    });
+    
 }
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
@@ -169,17 +162,13 @@
 
 - (void)scrollViewDidScroll:(UIScrollView *)scrollView
 {
-    [self.navigationBar scaleBarWithRightSpace:80 refreshHeight:self.refresh.kl_height];
+    [self.navigationBar scaleBarWithRightSpace:80 refreshHeight:64];
 }
 
 - (void)scrollViewDidEndDragging:(UIScrollView *)scrollView willDecelerate:(BOOL)decelerate
 {
     // 京东的骚操作，刷新控件回弹距离，延时才能成功设置滚动距离
-    dispatch_after(dispatch_time(DISPATCH_TIME_NOW, (int64_t)(0.1 * NSEC_PER_SEC)), dispatch_get_main_queue(), ^{
-        if (self.refresh.isRefreshing) {
-            [self.tableView setContentOffset:(CGPoint){0, -self.tableView.contentInset.top + 20} animated:YES];
-        }
-    });
+    
 }
 
 @end
