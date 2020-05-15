@@ -38,15 +38,11 @@ Pod::Spec.new do |s|
 
   # s.frameworks = 'UIKit', 'MapKit'
   s.dependency 'KLLeaks'
-  s.dependency 'KLCarousel'
   s.dependency 'KLCategory'
   s.dependency 'KLNetworkModule'
   s.dependency 'KLUserInfoManager'
-  s.dependency 'KLScaleNavigationBar'
   s.dependency 'KLNavigationController'
+  s.dependency 'KLImageView'
   s.dependency 'Masonry'
-  s.dependency 'SDWebImage'
-  s.dependency 'SDWebImageWebPCoder'
-  s.dependency 'MJRefresh'
   
 end
