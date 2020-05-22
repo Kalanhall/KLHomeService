@@ -19,6 +19,12 @@
 - (void)viewDidLoad {
     [super viewDidLoad];
     
+    self.view.backgroundColor = [UIColor kl_colorWithHexNumber:0xF9F9F9];
+}
+
+- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    KLHomeController *vc = KLHomeController.new;
+    [self.navigationController pushViewController:vc animated:YES];
 }
 
 @end
