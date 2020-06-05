@@ -7,6 +7,7 @@
 
 #import "UIViewController+KLTraceLog.h"
 #import "NSLogger.h"
+#import "NSObject+UIKit.h"
 #import "NSRuntime.h"
 
 @implementation UIViewController (KLTraceLog)
@@ -19,12 +20,16 @@
 }
 
 - (void)kl_viewDidLoad {
-    NSLogNotice(@"%@ viewDidLoad", self);
+    if (KLViewControllerTraceLogEnableState()) {
+        NSLogNotice(@"%@ viewDidLoad", self);
+    }
     [self kl_viewDidLoad];
 }
 
 - (void)kl_dealloc {
-    NSLogNotice(@"%@ dealloc", self);
+    if (KLViewControllerTraceLogEnableState()) {
+        NSLogNotice(@"%@ dealloc", self);
+    }
     [self kl_dealloc];
 }
 

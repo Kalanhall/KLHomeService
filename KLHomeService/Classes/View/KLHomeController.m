@@ -18,12 +18,13 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    
-    self.view.backgroundColor = [UIColor kl_colorWithHexNumber:0xF9F9F9];
+    self.navigationItem.title = @"首页";
+    self.view.backgroundColor = UIColor.whiteColor;
 }
 
 - (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
     KLHomeController *vc = KLHomeController.new;
+    vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
 }
 

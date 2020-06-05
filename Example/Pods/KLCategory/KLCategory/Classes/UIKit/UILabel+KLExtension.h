@@ -11,11 +11,11 @@ NS_ASSUME_NONNULL_BEGIN
 
 @interface UILabel (KLExtension)
 
-/// 设置字间距
-- (void)kl_setColumnspace:(CGFloat)columnspace;
+/// 字间距
+- (void)kl_setWordSpace:(CGFloat)wordSpace;
 
-/// 设置行间距
-- (void)kl_setRowspace:(CGFloat)rowspace;
+/// 行间距
+- (void)kl_setLineSpace:(CGFloat)lineSpace;
 
 @end
 

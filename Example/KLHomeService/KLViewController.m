@@ -8,6 +8,7 @@
 
 #import "KLViewController.h"
 @import KLHomeServiceInterface;
+@import KLNavigationController;
 
 @interface KLViewController ()
 
@@ -18,19 +19,15 @@
 - (void)viewDidLoad
 {
     [super viewDidLoad];
-	// Do any additional setup after loading the view, typically from a nib.
-}
-
-- (void)didReceiveMemoryWarning
-{
-    [super didReceiveMemoryWarning];
-    // Dispose of any resources that can be recreated.
-}
-
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+    
+    UITabBarController *tab = UITabBarController.alloc.init;
     UIViewController *vc = [KLServer.sharedServer fetchHomeController:nil];
-    vc.modalPresentationStyle = UIModalPresentationFullScreen;
-    [self presentViewController:vc animated:YES completion:nil];
+    KLNavigationController *nav = [KLNavigationController.alloc initWithRootViewController:vc];
+    nav.tabBarItem = [UITabBarItem.alloc initWithTabBarSystemItem:UITabBarSystemItemHistory tag:0];
+    tab.viewControllers = @[nav];
+    
+    [self addChildViewController:tab];
+    [self.view addSubview:tab.view];
 }
 
 @end

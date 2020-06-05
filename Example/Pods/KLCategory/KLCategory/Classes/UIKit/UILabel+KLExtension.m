@@ -10,21 +10,21 @@
 
 @implementation UILabel (KLExtension)
 
-- (void)kl_setColumnspace:(CGFloat)columnspace
+- (void)kl_setWordSpace:(CGFloat)wordSpace
 {
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:self.attributedText];
-    // 调整间距
-    [attributedString addAttribute:(__bridge NSString *)kCTKernAttributeName value:@(columnspace) range:NSMakeRange(0, [attributedString length])];
+    // 调整字间距
+    [attributedString addAttribute:NSKernAttributeName value:@(wordSpace) range:NSMakeRange(0, [attributedString length])];
     self.attributedText = attributedString;
 }
 
-- (void)kl_setRowspace:(CGFloat)rowspace
+- (void)kl_setLineSpace:(CGFloat)lineSpace
 {
     self.numberOfLines = 0;
     NSMutableAttributedString *attributedString = [[NSMutableAttributedString alloc] initWithAttributedString:self.attributedText];
     // 调整行距
     NSMutableParagraphStyle *paragraphStyle = [[NSMutableParagraphStyle alloc] init];
-    paragraphStyle.lineSpacing = rowspace;
+    paragraphStyle.lineSpacing = lineSpace;
     paragraphStyle.baseWritingDirection = NSWritingDirectionLeftToRight;
     paragraphStyle.lineBreakMode = NSLineBreakByTruncatingTail;
     [attributedString addAttribute:NSParagraphStyleAttributeName value:paragraphStyle range:NSMakeRange(0, [self.text length])];

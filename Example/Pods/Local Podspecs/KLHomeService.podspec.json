@@ -1,9 +1,9 @@
 {
   "name": "KLHomeService",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "summary": "主页服务",
   "description": "组件化 - 主页服务",
-  "homepage": "https://github.com/Kalanhall@163.com/KLHomeService",
+  "homepage": "https://github.com/Kalanhall/KLHomeService",
   "license": {
     "type": "MIT",
     "file": "LICENSE"
@@ -12,8 +12,8 @@
     "Kalanhall@163.com": "wujm002@galanz.com"
   },
   "source": {
-    "git": "https://github.com/Kalanhall@163.com/KLHomeService.git",
-    "tag": "0.0.1"
+    "git": "https://github.com/Kalanhall/KLHomeService.git",
+    "tag": "0.0.2"
   },
   "platforms": {
     "ios": "9.0"
@@ -28,12 +28,6 @@
     "KLLeaks": [
 
     ],
-    "KLConsole": [
-
-    ],
-    "KLCarousel": [
-
-    ],
     "KLCategory": [
 
     ],
@@ -46,16 +40,10 @@
     "KLNavigationController": [
 
     ],
+    "KLImageView": [
+
+    ],
     "Masonry": [
-
-    ],
-    "SDWebImage": [
-
-    ],
-    "SDWebImageWebPCoder": [
-
-    ],
-    "MJRefresh": [
 
     ]
   }
