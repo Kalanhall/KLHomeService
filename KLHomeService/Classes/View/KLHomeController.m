@@ -20,9 +20,11 @@
     [super viewDidLoad];
     self.navigationItem.title = @"首页";
     self.view.backgroundColor = UIColor.whiteColor;
+    
+    self.navigationItem.rightBarButtonItem = [UIBarButtonItem.alloc initWithTitle:@"Push" style:(UIBarButtonItemStylePlain) target:self action:@selector(push)];
 }
 
-- (void)touchesBegan:(NSSet<UITouch *> *)touches withEvent:(UIEvent *)event {
+- (void)push {
     KLHomeController *vc = KLHomeController.new;
     vc.hidesBottomBarWhenPushed = YES;
     [self.navigationController pushViewController:vc animated:YES];
