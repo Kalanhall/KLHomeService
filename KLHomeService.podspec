@@ -44,5 +44,5 @@ Pod::Spec.new do |s|
   s.dependency 'KLNavigationController'
   s.dependency 'KLImageView'
   s.dependency 'Masonry'
-  
+  s.dependency 'KLCrypto'
 end
